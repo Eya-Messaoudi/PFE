@@ -58,7 +58,6 @@ const NavFoot = () => {
         </nav>
       </section>
       {/*body*/}
-      <section className="body d-flex flex-column min-vh-100 "></section>
     </div>
   );
 };

@@ -3,8 +3,8 @@ import React from "react";
 const Footer = () => {
   return (
     <div>
-      <footer className="footer mt-auto ">
-        <div className="waves">
+      <footer className="footer ">
+        <div className="waves container">
           <div className="wave" id="wave1"></div>
           <div className="wave" id="wave2"></div>
           <div className="wave" id="wave3"></div>
