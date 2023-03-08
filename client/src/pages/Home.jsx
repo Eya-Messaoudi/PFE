@@ -1,13 +1,14 @@
 import React from "react";
 import NavFoot from "../Navbar";
-
+import hero from "../components/homeSection/hero"
 const Home = () => {
   return (
-    <div>
-      <section className="body d-flex flex-column min-vh-100 ">
-        <h1>this is the home page</h1>
-      </section>
-    </div>
+    <>
+    <section className="body d-flex flex-column min-vh-100 ">
+      <hero/>
+    </section>
+    
+    </>
   );
 };
 export default Home;
