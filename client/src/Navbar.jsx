@@ -57,7 +57,6 @@ const NavFoot = () => {
           </div>
         </nav>
       </section>
-      {/*body*/}
     </div>
   );
 };

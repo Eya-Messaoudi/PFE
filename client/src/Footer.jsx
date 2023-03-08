@@ -1,5 +1,6 @@
 import React from "react";
 import logoParadis from "./images/logo.png";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -16,15 +17,17 @@ const Footer = () => {
             <div className="footer-col">
               <h4>Links</h4>
               <ul>
-                <li>
-                  <a href="">Home</a>
-                </li>
-                <li>
-                  <a href="">About</a>
-                </li>
-                <li>
-                  <a href="">Blog</a>
-                </li>
+                <CustomLink className="link" to="/">
+                  Home
+                </CustomLink>
+
+                <CustomLink className="link" to="/About">
+                  About
+                </CustomLink>
+
+                <CustomLink className="link " to="/Blog">
+                  Blog
+                </CustomLink>
               </ul>
             </div>
             <div className="footer-col">
@@ -73,4 +76,15 @@ const Footer = () => {
     </div>
   );
 };
+function CustomLink({ to, children, ...props }) {
+  const resolvedPath = useResolvedPath(to);
+  const isActive = useMatch({ path: resolvedPath.pathname, end: true });
+  return (
+    <li className={isActive ? "active" : ""}>
+      <Link to={to} {...props}>
+        {children}
+      </Link>
+    </li>
+  );
+}
 export default Footer;
