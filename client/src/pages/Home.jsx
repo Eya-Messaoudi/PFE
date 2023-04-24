@@ -41,7 +41,7 @@ const Home = () => {
             </div>
             <div className="carousel-inner">
               <div className="carousel-item active" data-bs-interval="10000">
-                <img src={p7} className="d-block w-100" />
+                <img src={p7} className="d-block w-100" alt="..." />
                 <div className="carousel-caption  d-md-block">
                   <h5>First slide label</h5>
                   <p>
@@ -50,7 +50,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="carousel-item" data-bs-interval="2000">
-                <img src={p8} className="d-block w-100" />
+                <img src={p8} className="d-block w-100" alt="..." />
                 <div className="carousel-caption  d-md-block">
                   <h5>Second slide label</h5>
                   <p>
@@ -60,7 +60,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="carousel-item">
-                <img src={p9} className="d-block w-100" />
+                <img src={p9} className="d-block w-100" alt="..." />
                 <div className="carousel-caption  d-md-block">
                   <h5>Third slide label</h5>
                   <p>
@@ -158,7 +158,7 @@ const Home = () => {
           <div className="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-1">
             <div className="col">
               <div className="card card1">
-                <img src={p1} className="card-img-top m-0 " />
+                <img src={p1} alt="..." className="card-img-top m-0 " />
                 <div className="card-body">
                   <p className="card-text">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -170,7 +170,7 @@ const Home = () => {
             </div>
             <div className="col ">
               <div className="card card2">
-                <img src={p2} className="card-img-top m-0" />
+                <img src={p2} alt="..." className="card-img-top m-0" />
                 <div className="card-body">
                   <p className="card-text">
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -182,7 +182,7 @@ const Home = () => {
             </div>
             <div className="col">
               <div className="card card3">
-                <img src={p3} className="card-img-top m-0 " />
+                <img src={p3} alt="..." className="card-img-top m-0 " />
                 <div className="card-body">
                   <p className="card-text">
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -224,7 +224,7 @@ const Home = () => {
             </div>
             <div className="carousel-inner">
               <div className="carousel-item active" data-bs-interval="5000">
-                <img src={p4} className="d-block w-100" />
+                <img src={p4} alt="..." className="d-block w-100" />
                 <div className="carousel-caption  d-md-block">
                   <figure className="text-center">
                     <blockquote className="blockquote">
@@ -238,7 +238,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="carousel-item " data-bs-interval="2000">
-                <img src={p4} className="d-block w-100" />
+                <img src={p4} alt="..." className="d-block w-100" />
                 <div className="carousel-caption  d-md-block">
                   <figure className="text-center">
                     <blockquote className="blockquote">
@@ -254,7 +254,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="carousel-item " data-bs-interval="1000">
-                <img src={p4} className="d-block w-100" />
+                <img src={p4} alt="..." className="d-block w-100" />
                 <div className="carousel-caption  d-md-block">
                   <figure className="text-center">
                     <blockquote className="blockquote">

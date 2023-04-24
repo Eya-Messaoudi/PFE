@@ -1,0 +1,12 @@
+/*.btn {
+  background-color: rgb(4, 11, 114);
+  color: white;
+}
+.btn:hover {
+  background-color: rgb(74, 119, 255);
+  color: white;
+}*/
+.login h3 {
+  color: rgb(4, 11, 114);
+  font-weight: 500;
+}

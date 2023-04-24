@@ -1,0 +1,24 @@
+/*@media screen and (min-width: 992px) {
+  .navbar .container-fluid,
+  .navbar-expand-lg .navbar-collapse,
+  .navbar-expand-lg .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;*/
+
+.circle-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden; /* Ensure the image is clipped within the circular div */
+  background-color: #ccc; /* Optional: Add a background color for the circular div */
+}
+
+.profile-image {
+  width: 100%; /* Make sure the image fills the circular div */
+  height: 100%; /* Make sure the image fills the circular div */
+  object-fit: cover; /* Scale and crop the image to fit within the circular div */
+}
+.nav-link:hover {
+  background-color: #f4f4f490;
+  border-radius: 4px;
+}

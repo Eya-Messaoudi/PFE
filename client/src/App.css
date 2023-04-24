@@ -11,21 +11,34 @@
 .nav-link {
   font-family: Arial Narrow;
   font-size: large;
+  font-weight: 400;
   color: white;
+  height: 100%;
+  display: flex;
 }
-.nav-link:hover {
+/*.nav-link:hover {
   color: rgb(255, 136, 0);
-}
+}*/
 .listeItem ul li {
   font-size: 2em;
+  font-weight: 400;
   color: white;
   margin: 0 10px;
   display: inline-block;
   transition: 1s;
+  border-radius: 10px;
 }
-.listeItem li a:hover {
+.listeItem li :hover {
+  background-color: #ffffffd1;
+  border-radius: 10px;
+}
+.listeItem li.active {
+  background-color: #fe8800;
+  border-radius: 10px;
+}
+/*.listeItem li a:hover {
   transform: translateY(-10px);
-}
+}*/
 .btn {
   background-color: rgb(255, 217, 0);
 }

@@ -1,0 +1,70 @@
+get http://localhost:3002/admin/admins
+###
+post http://localhost:3002/admin/signUp
+Content-Type: application/json
+
+{
+  "name":"Asma",
+  "email":"Asma@gmail.com",
+  "password":"Asma123#"
+
+}
+###
+post http://localhost:3002/admin/logIn 
+Content-Type: application/json
+
+{
+  "name":"Asma",
+  "email":"Asma@gmail.com",
+  "password":"Asma123#"
+}
+###
+get http://localhost:3002/admin/classes
+###
+get http://localhost:3002/admin/classe/64245590867d58fba5837cd7
+###
+post http://localhost:3002/admin/new
+Content-Type: application/json
+
+{
+  "name":"4éme année"
+}
+###
+get http://localhost:3002/admin/teachers
+###
+post http://localhost:3002/admin/newTeacher/64245590867d58fba5837cd7
+Content-Type: application/json
+
+{
+  "cin":"12345678",
+  "firstName": "selem",
+  "lastName":"messaoudi",
+  "matieres":["arabic"]
+}
+###
+get http://localhost:3002/admin/addteacher/6424559d867d58fba5837cda/6424b68cb34577036acb84d9
+###
+DELETE http://localhost:3002/admin/deleteC/642d5a3d1a4372501932b16e HTTP/1.1
+###
+get http://localhost:3002/admin/teacher/6424b68cb34577036acb84d9
+###
+post http://localhost:3002/admin/newTeacher
+Content-Type: application/json
+
+{
+  "cin":"12346699",
+  "firstName": "jjjie",
+  "lastName":"mdei"
+}
+###
+delete http://localhost:3002/admin/delete/6424b68cb34577036acb84d9
+###
+post http://localhost:3002/admin/newParent/64245590867d58fba5837cd7
+Content-Type: application/json
+
+{
+  "cin":"12345679",
+  "firstName": "rjjjjz",
+  "lastName":"jkki",
+  "children":["français,math"]
+}
