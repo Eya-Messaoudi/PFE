@@ -1,5 +1,4 @@
 import React from "react";
-import NavFoot from "../Navbar";
 
 const Blog = () => {
   return (

@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
-
+const Classe = require("./classeModel");
 const parentSchema = new mongoose.Schema({
   cin: Number,
   firstName: String,
   lastName: String,
   password: String,
-
+  childs: [
+    {
+      name: String,
+      classe: { type: mongoose.SchemaTypes.ObjectId, ref: "Classe" },
+    },
+  ],
   /*passwordConfirm: {
     type: String,
     //required: [true, "Please confirm your password"],
@@ -21,10 +26,11 @@ parentSchema.statics.createParent = async function (
   cin,
   firstName,
   lastName,
+  childs,
   Teacher
 ) {
-  if (!cin || !firstName || !lastName) {
-    throw Error("tous les champs doivent etre remplis !");
+  if (!cin || !firstName || !lastName || !childs) {
+    throw Error("tous les champs sont obligatoires !");
   }
 
   let startswith = false;
@@ -46,7 +52,7 @@ parentSchema.statics.createParent = async function (
   if (exists || existsT) {
     throw Error("cin existe !");
   }
-  const parent = await this.create({ cin, firstName, lastName });
+  const parent = await this.create({ cin, firstName, lastName, childs });
   return parent;
 };
 module.exports = mongoose.model("Parent", parentSchema);

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
 const Classe = require("./classeModel");
+const mongoose = require("mongoose");
 
 const teacherSchema = new mongoose.Schema({
   cin: Number,

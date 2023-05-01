@@ -1,12 +1,14 @@
 get http://localhost:3002/admin/admins
 ###
+get http://localhost:3002/admin/agents
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+###
 post http://localhost:3002/admin/signUp
 Content-Type: application/json
 
 {
-  "name":"Asma",
-  "email":"Asma@gmail.com",
-  "password":"Asma123#"
+   "email":"admin@gmail.com",
+  "password":"#Admin12345"
 
 }
 ###
@@ -14,12 +16,36 @@ post http://localhost:3002/admin/logIn
 Content-Type: application/json
 
 {
-  "name":"Asma",
-  "email":"Asma@gmail.com",
-  "password":"Asma123#"
+  "email":"admin@gmail.com",
+  "password":"#Admin12345"
 }
 ###
+post http://localhost:3002/admin/creatAgent 
+Content-Type: application/json
+
+{ 
+  "cin": "12344679",
+  "nom":"eya",
+  "prenom":"messaoudi"
+}
+###
+post http://localhost:3002/admin/signUpAgent 
+Content-Type: application/json
+
+{  
+ "cin": "12344678",
+ "nom":"ramzi",
+ "prenom":"messaoudi",
+ "tel":"21555555",
+ "email":"ali@gmail.com",
+ "password":"#Ramzi1234",
+ "confirmPassword":"#Ramzi1234"
+}
+###
+delete http://localhost:3002/admin/deleteAgent/644af547986495daad65e873
+###
 get http://localhost:3002/admin/classes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
 ###
 get http://localhost:3002/admin/classe/64245590867d58fba5837cd7
 ###
@@ -27,7 +53,7 @@ post http://localhost:3002/admin/new
 Content-Type: application/json
 
 {
-  "name":"4éme année"
+  "name":"2éme année"
 }
 ###
 get http://localhost:3002/admin/teachers
@@ -48,23 +74,55 @@ DELETE http://localhost:3002/admin/deleteC/642d5a3d1a4372501932b16e HTTP/1.1
 ###
 get http://localhost:3002/admin/teacher/6424b68cb34577036acb84d9
 ###
-post http://localhost:3002/admin/newTeacher
+post http://localhost:3002/admin/newTeacher/6443b3cd8c5f8b55d4f10e26
 Content-Type: application/json
 
 {
-  "cin":"12346699",
+  "cin":"12336690",
   "firstName": "jjjie",
   "lastName":"mdei"
+  
 }
 ###
 delete http://localhost:3002/admin/delete/6424b68cb34577036acb84d9
 ###
-post http://localhost:3002/admin/newParent/64245590867d58fba5837cd7
+post http://localhost:3002/admin/newParent/643ef2b8b782fde616701019
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+
+{
+  "cin": "12344568",
+  "firstName": "rjjjjz",
+  "lastName":"jkki",
+  "childs":[{ 
+    "name":"salma"
+  }]
+}
+###
+get http://localhost:3002/admin/removeT/6443b3cd8c5f8b55d4f10e26/6443b4421bc3196fc76c9c78
+###
+get http://localhost:3002/admin/addteacher/643ef2b8b782fde616701019/64458228ce2a811f898523dd
+###
+get  http://localhost:3002/admin/parents
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+###
+put http://localhost:3002/admin/modifierP/644ec2cf8e26b896c03d0981
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
 Content-Type: application/json
 
 {
-  "cin":"12345679",
+  "cin": 12334568
+}
+###
+post http://localhost:3002/admin/newParent
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Content-Type: application/json
+
+{
+  "cin": "12345568",
   "firstName": "rjjjjz",
   "lastName":"jkki",
-  "children":["français,math"]
+  "childs":[{ 
+    "name":"salma"
+  }]
 }

@@ -1,4 +1,5 @@
 const Admin = require("../models/adminModel");
+const Agent = require("../models/agentModel");
 const Classe = require("../models/classeModel");
 const Teacher = require("../models/teacherModel");
 const Parent = require("../models/parentModel");
@@ -16,23 +17,38 @@ const getAdmins = async (req, res) => {
 };
 //login user
 const loginUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const admin = await Admin.logIn(name, email, password);
-    const token = createToken(admin._id);
-    res.status(200).json({ admin, token });
+    let user;
+
+    const admin = await Admin.findOne({ email });
+    // Check if the user is an admin
+    if (admin) {
+      const admin = await Admin.logIn(email, password);
+      user = admin;
+    } else {
+      // Check if the user is an agent
+      const agent = await Agent.logIn(email, password);
+      if (agent) {
+        user = agent;
+      } else {
+        throw new Error("Invalid email or password");
+      }
+    }
+
+    const token = createToken(user._id);
+    res.status(200).json({ email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 //signup user
-const signupUser = async (req, res) => {
-  const { name, email, password } = req.body;
+const signupAdmin = async (req, res) => {
+  const { email, password } = req.body;
 
   try {
-    const admin = await Admin.signup(name, email, password);
+    const admin = await Admin.signup(email, password);
 
     //create a token
     const token = createToken(admin._id);
@@ -41,7 +57,48 @@ const signupUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+//signup user
+const signupAgent = async (req, res) => {
+  const { cin, nom, prenom, tel, email, password, confirmPassword } = req.body;
 
+  try {
+    const agent = await Agent.signup(
+      cin,
+      nom,
+      prenom,
+      tel,
+      email,
+      password,
+      confirmPassword
+    );
+
+    //create a token
+    const token = createToken(agent._id);
+    res.status(200).json({ email, token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+//retourner la liste des agents
+const getAgents = async (req, res) => {
+  const agents = await Agent.find();
+  res.json(agents);
+};
+//creer un agent
+const createAgent = async (req, res) => {
+  const { cin, nom, prenom } = req.body;
+  try {
+    const agent = await Agent.createAgent(cin, nom, prenom);
+    res.status(200).json({ agent });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+//supprimer un agent
+const deleteAgent = async (req, res) => {
+  const agent = await Agent.findByIdAndDelete(req.params.id);
+  res.status(200).json({ agent });
+};
 //retourner les listes de classes
 const getClasses = async (req, res) => {
   const classes = await Classe.find();
@@ -98,10 +155,13 @@ const addTeacher = async (req, res) => {
   try {
     const teacher = await Teacher.findById(req.params.teacher);
     const classe = await Classe.findById(req.params.classe);
+    if (classe.teachers.some((t) => t._id.equals(teacher._id))) {
+      throw Error("cet enseignant existe dans cette classe");
+    }
     classe.teachers.push(teacher);
     classe.save();
     await teacher.addClass(classe._id);
-    res.status(200).json({ classe });
+    res.status(200).json({ teacher });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -126,6 +186,22 @@ const createTeacher = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+//modifier un user
+const modifyTeacher = async (req, res) => {
+  const { cin } = req.body;
+
+  const existP = await Parent.findOne({ cin: cin });
+  const existT = await Teacher.findOne({ cin: cin });
+  if (existP || existT) {
+    res.status(400).json({ error: "cin existant !" });
+  }
+  const updatedTeacher = await Teacher.findByIdAndUpdate(
+    req.params.id,
+    { cin: cin },
+    { new: true }
+  );
+  res.status(200).json({ teacher: updatedTeacher });
 };
 
 //retirer un enseignant d'une classe
@@ -160,6 +236,40 @@ const getUser = async (req, res) => {
   }
   res.json(user);
 };
+//modifier un user
+const modifyParent = async (req, res) => {
+  const { cin } = req.body;
+
+  const existP = await Parent.findOne({ cin: cin });
+  const existT = await Teacher.findOne({ cin: cin });
+  if (existP || existT) {
+    res.status(400).json({ error: "cin existant !" });
+  }
+  const updatedParent = await Parent.findByIdAndUpdate(
+    req.params.id,
+    { cin: cin },
+    { new: true }
+  );
+  res.status(200).json({ parent: updatedParent });
+};
+
+//creer un parent dans la bd
+const createP = async (req, res) => {
+  const { cin, firstName, lastName, childs } = req.body;
+  try {
+    const parent = await Parent.createParent(
+      cin,
+      firstName,
+      lastName,
+      childs,
+      Teacher
+    );
+    res.status(200).json({ parent });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //ajouter un parent deja existant
 const addParent = async (req, res) => {
   try {
@@ -175,9 +285,15 @@ const addParent = async (req, res) => {
 
 //creer un parent au sein d'une classe
 const createParent = async (req, res) => {
-  const { cin, firstName, lastName } = req.body;
+  const { cin, firstName, lastName, childs } = req.body;
   try {
-    const parent = await Parent.createParent(cin, firstName, lastName, Teacher);
+    const parent = await Parent.createParent(
+      cin,
+      firstName,
+      lastName,
+      childs,
+      Teacher
+    );
     const classe = await Classe.findById(req.params.id);
     classe.parents.push(parent);
     classe.save();
@@ -214,7 +330,11 @@ const deleteClasse = async (req, res) => {
 module.exports = {
   getAdmins,
   loginUser,
-  signupUser,
+  signupAdmin,
+  signupAgent,
+  getAgents,
+  createAgent,
+  deleteAgent,
   getClasses,
   getClasse,
   createClass,
@@ -222,11 +342,14 @@ module.exports = {
   createT,
   addTeacher,
   createTeacher,
+  modifyTeacher,
   removeTeacher,
   deleteTeacher,
   getParents,
+  createP,
   addParent,
   createParent,
+  modifyParent,
   deleteParent,
   removeParent,
   deleteClasse,
