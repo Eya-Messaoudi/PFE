@@ -1,0 +1,66 @@
+/*.AcceuilE .body {
+  background-image: url("../images/tableau.jpg");
+  background-repeat: no-repeat;
+  object-fit: cover;
+}*/
+.AcceuilE {
+  position: relative;
+}
+
+.AcceuilE img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.classList {
+  position: relative;
+  z-index: 1;
+}
+
+.classList .col .card {
+  height: 200px;
+  width: 200px;
+}
+.classList .card:hover {
+  background-color: rgb(255, 221, 0);
+}
+.sideBar {
+  background-color: rgb(58, 25, 189);
+  border-radius: 5px;
+}
+.oneParent .circle-container {
+  width: 40px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ffffffe9;
+}
+
+.oneParent .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.oneParent .row {
+  border-radius: 6px;
+}
+.oneParent .row:hover {
+  background-color: #ccc;
+}
+
+.creat-homework:hover .card {
+  color: rgb(58, 25, 189) !important;
+  border-color: rgb(58, 25, 189) !important;
+  cursor: pointer;
+}
+.modal-header {
+  border-bottom: 0 none;
+}
+
+.modal-footer {
+  border-top: 0 none;
+}

@@ -97,7 +97,7 @@ footer .footer-col h4::before {
 footer .footer-col ul li:not(:last-child) {
   margin-bottom: 10px;
 }
-footer .footer-col ul li a,
+footer .footer-col ul li Link,
 footer .footer-col ul li,
 footer .footer-col {
   font-size: 16px;
