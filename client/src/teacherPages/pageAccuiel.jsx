@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Style.css";
-import tableau from "../images/tableau.jpg";
-
+import tableau from "../images/backgroundT.jpg";
 const Acceuil = () => {
   return (
     <div className="AcceuilE">
