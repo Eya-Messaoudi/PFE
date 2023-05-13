@@ -87,7 +87,7 @@ router.put("/modifierT/:id", modifyTeacher);
 router.get("/removeT/:classe/:teacher", removeTeacher);
 
 //supprimer un enseignant du bd
-router.delete("/delete/:id", deleteTeacher);
+router.delete("/deleteTeacher/:id", deleteTeacher);
 
 //retourner la liste des parents
 router.get("/parents", getParents);

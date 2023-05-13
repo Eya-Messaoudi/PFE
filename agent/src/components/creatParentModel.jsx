@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const CreatParentModel = ({ id, targetId, onError }) => {
-  const [childs, setChilds] = useState([{ enfant: "", classe: id }]);
+  const [childs, setChilds] = useState([{ enfant: "" }]);
   const [cin, setCin] = useState("");
   const [nom, setNom] = useState("");
   const [error, setError] = useState(null);
@@ -12,7 +12,6 @@ const CreatParentModel = ({ id, targetId, onError }) => {
   const API_Base = "http://localhost:3002";
   const childData = childs.map((child) => ({
     name: child.enfant,
-    classe: child.classe,
   }));
   const { user } = useAuthContext();
   const creatParent = async () => {
@@ -28,8 +27,8 @@ const CreatParentModel = ({ id, targetId, onError }) => {
       },
       body: JSON.stringify({
         cin: cin,
-        firstName: nom,
-        lastName: prenom,
+        nom: nom,
+        prenom: prenom,
         childs: childData,
       }),
     });
@@ -42,8 +41,8 @@ const CreatParentModel = ({ id, targetId, onError }) => {
         type: "ADD_PARENT",
         payload: {
           cin: json.cin,
-          firstName: json.firstName,
-          lastName: json.lastName,
+          nom: json.nom,
+          prenom: json.prenom,
           childs: json.childs,
         },
       });
@@ -64,9 +63,9 @@ const CreatParentModel = ({ id, targetId, onError }) => {
     list.splice(index, 1);
     setChilds(list);
   };
-  const handleChildChange = (index, classe, e) => {
+  const handleChildChange = (index, e) => {
     const newChildren = [...childs];
-    newChildren[index] = { enfant: e.target.value, classe };
+    newChildren[index] = { enfant: e.target.value };
     setChilds(newChildren);
   };
 
@@ -138,7 +137,7 @@ const CreatParentModel = ({ id, targetId, onError }) => {
                     id={`enfant-${index}`}
                     placeholder="Enfant"
                     value={child.enfant}
-                    onChange={(e) => handleChildChange(index, id, e)}
+                    onChange={(e) => handleChildChange(index, e)}
                     style={{ width: "98%" }}
                   />
                   <label htmlFor={`enfant-${index}`}>Enfant(s)</label>

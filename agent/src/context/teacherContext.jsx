@@ -10,7 +10,7 @@ export const teacherReducer = (state, action) => {
       };
     case "CREATE_TEACHER":
       return {
-        teachers: [action.payload, ...state.teachers],
+        teachers: [...state.teachers, action.payload],
       };
     case "DELETE_TEACHER":
       return {
@@ -26,7 +26,7 @@ export const TeacherContextProvider = ({ children }) => {
   });
 
   return (
-    <TeacherContext.Provider value={{ dispatchT, ...state }}>
+    <TeacherContext.Provider value={{ ...state, dispatchT }}>
       {children}
     </TeacherContext.Provider>
   );

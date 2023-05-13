@@ -78,11 +78,11 @@ const ClasseDetail = () => {
                             to={`/profileEnseignant/${teacher._id}`}
                             className="text-decoration-none text-secondary"
                           >
-                            {teacher.lastName} {teacher.firstName}
+                            {teacher.nom} {teacher.prenom}
                           </Link>
                         </td>
                         <td className="text-end ">
-                          <div className="fs-4">
+                          <div className="fs-4" key={teacher._id}>
                             <ion-icon
                               name="remove-circle-outline"
                               data-bs-toggle="modal"
@@ -178,7 +178,7 @@ const ClasseDetail = () => {
                             to={`/profileParent/${parent._id}`}
                             className="text-decoration-none text-secondary"
                           >
-                            {parent.lastName} {parent.firstName}
+                            {parent.nom} {parent.prenom}
                           </Link>
                         </td>
                         <td className="text-end ">

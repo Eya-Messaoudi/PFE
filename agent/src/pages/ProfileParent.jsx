@@ -76,7 +76,7 @@ const ProfileParent = () => {
                       />
                       <div className="mt-3">
                         <h4>
-                          {userData.firstName} {userData.lastName}
+                          {userData.nom} {userData.prenom}
                         </h4>
                         <p className="text-secondary mb-1">parent de :</p>
                         <p className="text-muted font-size-sm">
@@ -126,7 +126,7 @@ const ProfileParent = () => {
                         <input
                           type="text"
                           className="form-control"
-                          value={`${userData.firstName} ${userData.lastName} `}
+                          value={`${userData.nom} ${userData.prenom} `}
                           disabled
                         />
                       </div>

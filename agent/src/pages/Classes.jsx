@@ -7,7 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const Classes = () => {
   const [error, seterror] = useState(null);
   const [newClass, setnewClass] = useState("");
-  const [dismissModal, setDismissModal] = useState(true);
+
   const { classes, dispatch } = useClassesContext();
   const API_Base = "http://localhost:3002";
   const { user } = useAuthContext();
@@ -47,15 +47,13 @@ const Classes = () => {
     const json = await response.json();
     if (!response.ok) {
       seterror(json.error);
-      setDismissModal(false);
     }
     if (response.ok) {
       setnewClass("");
       seterror(null);
-      console.log("new class added", json.name);
+
       dispatch({ type: "CREATE_CLASSES", payload: { name: json.name } });
       setnewClass("");
-      setDismissModal(true);
     }
   };
   const handleCloseClick = () => {
@@ -108,21 +106,13 @@ const Classes = () => {
                 />
                 <label htmlFor="floatingPassword">nom</label>
               </div>
-              {error && (
-                <div
-                  className="error alert alert-danger mt-2 text-center"
-                  role="alert"
-                >
-                  {error}
-                </div>
-              )}
             </div>
 
             <div className="modal-footer">
               <button
                 className="btn btn-primary"
                 onClick={addClass}
-                data-bs-dismiss={dismissModal ? "" : "modal"}
+                data-bs-dismiss="modal"
               >
                 Créer
               </button>
@@ -133,10 +123,10 @@ const Classes = () => {
       <div className="container classes row p-3 g-3   text-white d-flex justify-content-center align-items-center">
         <div className="row">
           {classes &&
-            classes.map((classe) => (
+            classes.map((classe, index) => (
               <div
                 className=" classe col-3 custom-col   m-3 mx-4 d-flex justify-content-center "
-                key={classe._id}
+                key={index}
               >
                 <Link
                   to={`/details/${classe._id}`}
@@ -146,6 +136,17 @@ const Classes = () => {
                 </Link>
               </div>
             ))}
+        </div>
+        <div className="row">
+          {error && (
+            <div
+              className="error alert alert-danger mt-2 text-center"
+              role="alert"
+              onClick={() => seterror(null)}
+            >
+              {error}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");*/
+
+* {
+  font-weight: 400;
+}
 
 .container {
   padding: 0;
@@ -19,7 +23,7 @@
 /*.nav-link:hover {
   color: rgb(255, 136, 0);
 }*/
-.listeItem ul li {
+.listeItem ul li:not(.dropdown li) {
   font-size: 2em;
   font-weight: 400;
   color: white;
@@ -28,11 +32,12 @@
   transition: 1s;
   border-radius: 10px;
 }
-.listeItem li :hover {
+
+.listeItem li:hover {
   background-color: #ffffffd1;
   border-radius: 10px;
 }
-.listeItem li.active {
+.listeItem li.active:not(.dropdown li) {
   background-color: #fe8800;
   border-radius: 10px;
 }

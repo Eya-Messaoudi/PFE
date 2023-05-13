@@ -49,8 +49,8 @@ const ParentsList = () => {
       },
       body: JSON.stringify({
         cin: cin,
-        firstName: nom,
-        lastName: prenom,
+        nom: nom,
+        prenom: prenom,
         childs: childData,
       }),
     });
@@ -63,8 +63,8 @@ const ParentsList = () => {
         type: "CREATE_PARENT",
         payload: {
           cin: json.cin,
-          firstName: json.firstName,
-          lastName: json.lastName,
+          nom: json.nom,
+          prenom: json.prenom,
           childs: json.childs,
         },
       });
@@ -120,8 +120,8 @@ const ParentsList = () => {
         </thead>
         <tbody>
           {parents &&
-            parents.map((parent) => (
-              <tr key={parent._id}>
+            parents.map((parent, index) => (
+              <tr key={index}>
                 <th scope="row">
                   <div className="circle-container">
                     <img src={parentt} alt="" className="profile-image" />
@@ -132,7 +132,7 @@ const ParentsList = () => {
                     to={`/profileParent/${parent._id}`}
                     className="text-decoration-none text-secondary"
                   >
-                    {parent.lastName} {parent.firstName}
+                    {parent.nom} {parent.prenom}
                   </Link>
                 </td>
                 <td className="text-end fs-5   ">
@@ -140,62 +140,64 @@ const ParentsList = () => {
                     name="trash-outline"
                     className=""
                     data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    data-bs-target={`#exampleModal${parent._id}`}
                   ></ion-icon>
-                  <div
-                    className="modal fade"
-                    id="exampleModal"
-                    tabIndex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
-                            Message de confirmation
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          <p className="text-start ">
-                            est ce que vous êtes sûr ? vous voulez supprimer cet
-                            personne
-                          </p>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            data-bs-dismiss="modal"
-                          >
-                            Non
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => deleteParent(parent._id)}
-                            data-bs-dismiss="modal"
-                          >
-                            Oui
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
+      {parents &&
+        parents.map((parent, index) => (
+          <div
+            className="modal fade"
+            id={`exampleModal${parent._id}`}
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+            key={index}
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">
+                    Message de confirmation
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p className="text-start ">
+                    est ce que vous êtes sûr ? vous voulez supprimer cet
+                    personne
+                  </p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Non
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => deleteParent(parent._id)}
+                    data-bs-dismiss="modal"
+                  >
+                    Oui
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
       <div className=" text-end mt-4">
         <button
           type="button"

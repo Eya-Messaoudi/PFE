@@ -81,7 +81,9 @@ const signupAgent = async (req, res) => {
 };
 //retourner la liste des agents
 const getAgents = async (req, res) => {
-  const agents = await Agent.find();
+  const agents = await Agent.find()
+    .select("-password -confirmPass")
+    .sort({ createdAt: -1 });
   res.json(agents);
 };
 //creer un agent
@@ -101,7 +103,7 @@ const deleteAgent = async (req, res) => {
 };
 //retourner les listes de classes
 const getClasses = async (req, res) => {
-  const classes = await Classe.find();
+  const classes = await Classe.find().sort({ createdAt: -1 });
   res.json(classes);
 };
 //retourner un classe selon id
@@ -124,7 +126,9 @@ const createClass = async (req, res) => {
 
 //retourner la liste des enseignants
 const getTeachers = async (req, res) => {
-  const teachers = await Teacher.find();
+  const teachers = await Teacher.find()
+    .select("-password -confirmPass")
+    .sort({ createdAt: -1 });
   res.json(teachers);
 };
 
@@ -136,14 +140,9 @@ const getTeachers = async (req, res) => {
 
 //creer un enseignant dans la bd
 const createT = async (req, res) => {
-  const { cin, firstName, lastName } = req.body;
+  const { cin, nom, prenom } = req.body;
   try {
-    const teacher = await Teacher.createTeacher(
-      cin,
-      firstName,
-      lastName,
-      Parent
-    );
+    const teacher = await Teacher.createTeacher(cin, nom, prenom, Parent);
     res.status(200).json({ teacher });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -160,7 +159,7 @@ const addTeacher = async (req, res) => {
     }
     classe.teachers.push(teacher);
     classe.save();
-    await teacher.addClass(classe._id);
+
     res.status(200).json({ teacher });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -169,19 +168,14 @@ const addTeacher = async (req, res) => {
 
 //creer un enseignant au sein d'une classe
 const createTeacher = async (req, res) => {
-  const { cin, firstName, lastName } = req.body;
+  const { cin, nom, prenom } = req.body;
   try {
-    const teacher = await Teacher.createTeacher(
-      cin,
-      firstName,
-      lastName,
-      Parent
-    );
+    const teacher = await Teacher.createTeacher(cin, nom, prenom, Parent);
 
     const classe = await Classe.findById(req.params.id);
     classe.teachers.push(teacher);
     classe.save();
-    await teacher.addClass(classe._id);
+
     res.status(200).json({ classe, teacher });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -204,35 +198,66 @@ const modifyTeacher = async (req, res) => {
   res.status(200).json({ teacher: updatedTeacher });
 };
 
-//retirer un enseignant d'une classe
 const removeTeacher = async (req, res) => {
-  const teacher = await Teacher.findById(req.params.teacher);
-  const classe = await Classe.findById(req.params.classe);
-  classe.teachers = classe.teachers.filter(
-    (item) => item.toString() !== teacher._id.toString()
-  );
-  await teacher.removeClass(classe._id);
-  await classe.save();
-  res.json({ classe, teacher });
+  try {
+    const teacherId = req.params.teacher;
+    const classeId = req.params.classe;
+
+    const teacher = await Teacher.findById(teacherId);
+    const classe = await Classe.findById(classeId);
+
+    if (!teacher || !classe) {
+      // Handle the case where teacher or classe is not found
+      return res.status(404).json({ error: "Teacher or classe not found" });
+    }
+
+    const teacherObjectId = teacher._id.toString(); // Convert teacher._id to a string
+    classe.teachers = classe.teachers.filter(
+      (item) => item.toString() !== teacherObjectId
+    );
+
+    await classe.save();
+
+    res.json({ classe, teacher });
+  } catch (error) {
+    // Handle any errors that occur during the process
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 //supprimer un enseignant du bd
 const deleteTeacher = async (req, res) => {
-  const teacher = await Teacher.findByIdAndDelete(req.params.id);
-  res.status(200).json({ teacher });
+  try {
+    const teacher = await Teacher.findOneAndDelete({ _id: req.params.id });
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+    res.status(200).json({ teacher });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the teacher" });
+  }
 };
 
 //retourner la liste des parents
 const getParents = async (req, res) => {
-  const parents = await Parent.find();
+  const parents = await Parent.find()
+
+    .sort({ createdAt: -1 })
+    .select("-password -confirmPass");
   res.json(parents);
 };
 
 //retourner un parent selon son id
 const getUser = async (req, res) => {
-  let user = await Parent.findById(req.params.id);
+  let user = await Parent.findById(req.params.id).select(
+    "-password -confirmPass"
+  );
   if (!user) {
-    user = await Teacher.findById(req.params.id);
+    user = await Teacher.findById(req.params.id).select(
+      "-password -confirmPass"
+    );
   }
   res.json(user);
 };
@@ -255,15 +280,9 @@ const modifyParent = async (req, res) => {
 
 //creer un parent dans la bd
 const createP = async (req, res) => {
-  const { cin, firstName, lastName, childs } = req.body;
+  const { cin, nom, prenom, childs } = req.body;
   try {
-    const parent = await Parent.createParent(
-      cin,
-      firstName,
-      lastName,
-      childs,
-      Teacher
-    );
+    const parent = await Parent.createParent(cin, nom, prenom, childs, Teacher);
     res.status(200).json({ parent });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -285,15 +304,9 @@ const addParent = async (req, res) => {
 
 //creer un parent au sein d'une classe
 const createParent = async (req, res) => {
-  const { cin, firstName, lastName, childs } = req.body;
+  const { cin, nom, prenom, childs } = req.body;
   try {
-    const parent = await Parent.createParent(
-      cin,
-      firstName,
-      lastName,
-      childs,
-      Teacher
-    );
+    const parent = await Parent.createParent(cin, nom, prenom, childs, Teacher);
     const classe = await Classe.findById(req.params.id);
     classe.parents.push(parent);
     classe.save();

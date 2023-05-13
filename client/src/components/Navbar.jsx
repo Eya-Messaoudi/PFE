@@ -1,9 +1,15 @@
 import React from "react";
 import logoParadis from "../images/logo.png";
-
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useLogout } from "../hooks/useLogout";
 
 const NavFoot = () => {
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const handleClick = () => {
+    logout();
+  };
   return (
     <div className="navFoot">
       {/*navbar*/}
@@ -30,12 +36,12 @@ const NavFoot = () => {
           </button>
 
           <div
-            className="listeItem collapse navbar-collapse justify-content-end align-center"
+            className="listeItem collapse navbar-collapse justify-content-end align-center ms-3"
             id="navbarSupportedContent"
           >
             <ul className=" navbar-nav mr-auto">
               <CustomLink className="nav-link" to="/">
-                Home
+                Acceuil
               </CustomLink>
 
               <CustomLink className="nav-link" to="/About">
@@ -45,15 +51,43 @@ const NavFoot = () => {
               <CustomLink className="nav-link " to="/Blog">
                 Blog
               </CustomLink>
+              {!user && (
+                <CustomLink className="nav-link " to="/login">
+                  se connecter
+                </CustomLink>
+              )}
+
+              {user && (
+                <li className="nav-item dropdown">
+                  <div
+                    className="nav-link dropdown-toggle"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {user.email}
+                  </div>
+                  <ul className="dropdown-menu">
+                    <CustomLink
+                      className="dropdown-item"
+                      to={user.role === "teacher" ? "/AcceuilE" : "/AcceuilP"}
+                    >
+                      Acceuil
+                    </CustomLink>
+
+                    <CustomLink className="dropdown-item" to="#">
+                      profile
+                    </CustomLink>
+
+                    <li>
+                      <div className="dropdown-item" onClick={handleClick}>
+                        se deconnecter
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              )}
             </ul>
-            <form className="form-inline my-2 my-lg-0">
-              <button
-                className="btn btn-outline-light text-white my-2 my-sm-0 text-secondary "
-                type="submit"
-              >
-                Sign In
-              </button>
-            </form>
           </div>
         </nav>
       </section>

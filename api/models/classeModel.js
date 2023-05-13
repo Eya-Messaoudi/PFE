@@ -5,6 +5,7 @@ const classeSchema = new mongoose.Schema({
   name: String,
   parents: [{ type: mongoose.SchemaTypes.ObjectId, ref: Parent }],
   teachers: [{ type: mongoose.SchemaTypes.ObjectId, ref: Teacher }],
+  createdAt: { type: Date, default: Date.now },
 });
 
 classeSchema.statics.createClass = async function (name) {
@@ -18,20 +19,5 @@ classeSchema.statics.createClass = async function (name) {
   const classe = await this.create({ name });
   return classe;
 };
-
-/*classeSchema.statics.addTeacher = async function (teacher) {
-  const id = teacher._id;
-  let exists = false;
-  for (let i = 0; i < this.teachers.length; i++) {
-    if (this.teachers[i]._id === id) {
-      exists = true;
-    }
-  }
-  if (exists) {
-    throw Error("cet enseignant existe dejà!");
-  }
-  const teachers = this.teachers.push(teacher);
-  return teachers;
-};*/
 
 module.exports = mongoose.model("classe", classeSchema);

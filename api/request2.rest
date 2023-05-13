@@ -1,0 +1,44 @@
+get http://localhost:3002/teacher/classes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8
+###
+get http://localhost:3002/teacher/parentsList/643ef2b8b782fde616701019
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8
+###
+get http://localhost:3002/teacher/cours/643ef2b8b782fde616701019
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8
+###
+post http://localhost:3002/teacher/creatCours/643ef2b8b782fde616701019
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8
+
+{
+    "content":{"text":"exercice 5 page 30"},
+    "toDoBefore":"2023-05-06T09:00:00.000Z"
+}
+###
+post http://localhost:3002/signup
+Content-Type: application/json
+
+{
+"cin": 12345671,
+"nom":"messaoudi",
+"prenom":"eyya",
+"tel":25620759,
+"email":"aa@gmaill.com",
+"password":"#Asma12345",
+"confirmPass":"#Asma12345"
+}
+###
+post http://localhost:3002/login
+Content-Type: application/json
+
+{
+    "cin":"12345680",
+    "password":"#Asma12345"
+}
+###
+get http://localhost:3002/teacher/parentProfile/645a1f4bdcf6cdc00a887327
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8
+###
+get http://localhost:3002/teacher/myProfile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU5ODJjNjMwNzMwYTA1YzJhMjhmMzYiLCJpYXQiOjE2ODM4MTAzNzEsImV4cCI6MTY4NDA2OTU3MX0.hmwGdY82aWmNZvGg9losV42f7UyKd_twVhz2L3zJ_Z8

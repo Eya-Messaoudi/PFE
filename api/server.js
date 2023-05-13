@@ -4,6 +4,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const adminRoutes = require("./Routes/adminRoutes");
+const teacherRoutes = require("./Routes/teacherRoutes");
+const parentRoutes = require("./Routes/parentRoutes");
+const loginSignupRoute = require("./Routes/loginSignupRoutes");
 
 //express app
 const app = express();
@@ -24,6 +27,9 @@ mongoose
 
 //routes
 app.use("/admin", adminRoutes);
+app.use("/teacher", teacherRoutes);
+app.use("/parent", parentRoutes);
+app.use(loginSignupRoute);
 
 app.listen(3002, () => {
   console.log("server started at localhost 3002");

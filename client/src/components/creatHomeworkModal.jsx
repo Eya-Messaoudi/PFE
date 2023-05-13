@@ -1,7 +1,49 @@
 import { useState } from "react";
+import { useCoursContext } from "../hooks/useCoursContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const HomeworkModal = ({ targetId }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+const HomeworkModal = ({ targetId, onError, idC }) => {
+  const [selectedFile, setSelectedFile] = useState("");
+  const [date, setDate] = useState("");
+  const [text, setText] = useState("");
+  //const [error, setError] = useState(null);
+  const { dispatchC } = useCoursContext();
+  const { user } = useAuthContext();
+  const API_BASE = "http://localhost:3002/teacher";
+  const creatCours = async () => {
+    if (!user) {
+      return;
+    }
+    const response = await fetch(API_BASE + "/creatCours/" + idC, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({
+        content: {
+          text: text,
+        },
+        toDoBefore: date,
+      }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      onError(null);
+      setDate("");
+      setText("");
+      dispatchC({
+        type: "CREATE_COURS",
+        payload: {
+          content: json.content,
+          toDoBefore: json.toDoBefore,
+        },
+      });
+    }
+    if (!response.ok) {
+      onError(json.error);
+    }
+  };
 
   const handleFileSelect = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -42,14 +84,27 @@ const HomeworkModal = ({ targetId }) => {
                 <option value="2">Two</option>
                 <option value="3">Three</option>
               </select>
+              <label htmlFor="date" className="form-label fs-6">
+                A faire pour le :
+              </label>
+              <input
+                type="date"
+                className="form-control mbt-3 mb-3"
+                id="date"
+                aria-label="dateLimite"
+                onChange={(e) => setDate(e.target.value)}
+                value={date}
+              ></input>{" "}
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="3"
+                onChange={(e) => setText(e.target.value)}
+                value={text}
               ></textarea>
             </div>
 
-            <div className="file-input">
+            {/* <div className="file-input">
               <input
                 id="file-upload"
                 type="file"
@@ -78,13 +133,18 @@ const HomeworkModal = ({ targetId }) => {
                   ></button>
                 </div>
               )}
-            </div>
+            </div>*/}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn " data-bs-dismiss="modal">
               Annuler
             </button>
-            <button type="button" className="btn ">
+            <button
+              type="button"
+              className="btn "
+              onClick={creatCours}
+              data-bs-dismiss="modal"
+            >
               Publier
             </button>
           </div>

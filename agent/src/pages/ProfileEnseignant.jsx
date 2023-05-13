@@ -76,7 +76,7 @@ const ProfileEnseignant = () => {
                       />
                       <div className="mt-3">
                         <h4>
-                          {userData.firstName} {userData.lastName}
+                          {userData.nom} {userData.prenom}
                         </h4>
                       </div>
                     </div>
@@ -120,7 +120,7 @@ const ProfileEnseignant = () => {
                         <input
                           type="text"
                           className="form-control"
-                          value={`${userData.firstName} ${userData.lastName} `}
+                          value={`${userData.nom} ${userData.prenom} `}
                           disabled
                         />
                       </div>

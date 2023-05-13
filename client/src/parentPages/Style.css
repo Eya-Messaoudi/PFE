@@ -1,0 +1,59 @@
+.AcceuilP {
+  position: relative;
+}
+.profile {
+  overflow: auto !important;
+}
+.AcceuilP img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.parent .sideBar {
+  background-color: rgb(58, 25, 189);
+  border-radius: 5px;
+  width: 70px;
+}
+.parent .sideBar .offcanvas {
+  background-color: rgb(58, 25, 189);
+}
+
+.childsList {
+  position: relative;
+  z-index: 1;
+}
+.childsList .card {
+  background-color: rgb(255, 221, 0);
+  margin-top: 70px;
+}
+.oneTeacher .circle-container {
+  width: 40px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ffffffe9;
+}
+
+.oneTeacher .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.oneTeacher .teacher {
+  border-radius: 6px;
+  overflow-x: hidden;
+}
+.oneTeacher .teacher:hover {
+  background-color: #ccc;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}

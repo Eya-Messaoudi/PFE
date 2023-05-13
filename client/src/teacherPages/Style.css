@@ -28,10 +28,24 @@
 .classList .card:hover {
   background-color: rgb(255, 221, 0);
 }
-.sideBar {
+.teacher {
+  overflow-x: scroll; /* enable horizontal scrolling */
+  white-space: nowrap;
+}
+.teacher .sideBar {
   background-color: rgb(58, 25, 189);
   border-radius: 5px;
+  width: 70px;
 }
+.teacher .sideBar .offcanvas {
+  background-color: rgb(58, 25, 189);
+}
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .oneParent .circle-container {
   width: 40px;
   height: 45px;
@@ -64,7 +78,7 @@
 .modal-footer {
   border-top: 0 none;
 }
-.posts .card {
+.posts .post-body .card {
   border: none;
 }
 .posts .card-header {
@@ -84,4 +98,23 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.textBox .circle-container {
+  width: 40px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ffffffe9;
+}
+
+.textBox .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.textBox .col-4 {
+  width: 15%;
+}
+.textBox .col-8 {
+  width: 85%;
 }

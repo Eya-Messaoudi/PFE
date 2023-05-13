@@ -25,8 +25,8 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
 
       body: JSON.stringify({
         cin: cin,
-        firstName: nom,
-        lastName: prenom,
+        nom: nom,
+        prenom: prenom,
       }),
     });
 
@@ -41,8 +41,8 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
         type: "ADD_TEACHER",
         payload: {
           cin: json.cin,
-          firstName: json.firstName,
-          lastName: json.lastName,
+          nom: json.nom,
+          prenom: json.prenom,
         },
       });
     }

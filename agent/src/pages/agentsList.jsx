@@ -104,8 +104,8 @@ const Agents = () => {
         </thead>
         <tbody>
           {agents &&
-            agents.map((agent) => (
-              <tr key={agent._id}>
+            agents.map((agent, index) => (
+              <tr key={index}>
                 <th scope="row">
                   <div className="circle-container">
                     <img src={profile} alt="" className="profile-image" />

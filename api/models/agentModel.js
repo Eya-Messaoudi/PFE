@@ -9,6 +9,7 @@ const agentSchema = new mongoose.Schema({
   email: String,
   password: String,
   confirmPassword: String,
+  createdAt: { type: Date, default: Date.now },
 });
 
 //static SignUp method

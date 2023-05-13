@@ -22,9 +22,10 @@ Content-Type: application/json
 ###
 post http://localhost:3002/admin/creatAgent 
 Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODMzOTAzNDEsImV4cCI6MTY4MzY0OTU0MX0.zWmZibtasfi9fPANnXLckfJ_7M_oTpg5Z_Kwid18Rjg
 
 { 
-  "cin": "12344679",
+  "cin": "12344677",
   "nom":"eya",
   "prenom":"messaoudi"
 }
@@ -33,7 +34,7 @@ post http://localhost:3002/admin/signUpAgent
 Content-Type: application/json
 
 {  
- "cin": "12344678",
+ "cin": "12344677",
  "nom":"ramzi",
  "prenom":"messaoudi",
  "tel":"21555555",
@@ -45,9 +46,10 @@ Content-Type: application/json
 delete http://localhost:3002/admin/deleteAgent/644af547986495daad65e873
 ###
 get http://localhost:3002/admin/classes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 ###
-get http://localhost:3002/admin/classe/64245590867d58fba5837cd7
+get http://localhost:3002/admin/classe/643ef2b8b782fde616701019
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 ###
 post http://localhost:3002/admin/new
 Content-Type: application/json
@@ -57,6 +59,7 @@ Content-Type: application/json
 }
 ###
 get http://localhost:3002/admin/teachers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 ###
 post http://localhost:3002/admin/newTeacher/64245590867d58fba5837cd7
 Content-Type: application/json
@@ -72,7 +75,8 @@ get http://localhost:3002/admin/addteacher/6424559d867d58fba5837cda/6424b68cb345
 ###
 DELETE http://localhost:3002/admin/deleteC/642d5a3d1a4372501932b16e HTTP/1.1
 ###
-get http://localhost:3002/admin/teacher/6424b68cb34577036acb84d9
+get http://localhost:3002/admin/user/645424569feaf3029b09402b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODMyMzU0NzMsImV4cCI6MTY4MzQ5NDY3M30.TPbsjsPIWDQ_ZxZWvtZ5pq54X3DU4NhVlzt9l1-1Kco
 ###
 post http://localhost:3002/admin/newTeacher/6443b3cd8c5f8b55d4f10e26
 Content-Type: application/json
@@ -88,23 +92,25 @@ delete http://localhost:3002/admin/delete/6424b68cb34577036acb84d9
 ###
 post http://localhost:3002/admin/newParent/643ef2b8b782fde616701019
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 
 {
-  "cin": "12344568",
-  "firstName": "rjjjjz",
-  "lastName":"jkki",
+  "cin": "12345680",
+  "nom": "rjjjjz",
+  "prenom":"jkki",
   "childs":[{ 
     "name":"salma"
   }]
 }
 ###
-get http://localhost:3002/admin/removeT/6443b3cd8c5f8b55d4f10e26/6443b4421bc3196fc76c9c78
+get http://localhost:3002/admin/removeT/643ef2b8b782fde616701019/645818b0f9b1cf6d52b44321
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 ###
 get http://localhost:3002/admin/addteacher/643ef2b8b782fde616701019/64458228ce2a811f898523dd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODMyMzU0NzMsImV4cCI6MTY4MzQ5NDY3M30.TPbsjsPIWDQ_ZxZWvtZ5pq54X3DU4NhVlzt9l1-1Kco
 ###
 get  http://localhost:3002/admin/parents
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODM0OTgxMjgsImV4cCI6MTY4Mzc1NzMyOH0.W8786r0kRRTyLPpNcQ83tV2wDGc8Wo90zOHFC5JJWfg
 ###
 put http://localhost:3002/admin/modifierP/644ec2cf8e26b896c03d0981
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
@@ -115,14 +121,24 @@ Content-Type: application/json
 }
 ###
 post http://localhost:3002/admin/newParent
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODMyMzU0NzMsImV4cCI6MTY4MzQ5NDY3M30.TPbsjsPIWDQ_ZxZWvtZ5pq54X3DU4NhVlzt9l1-1Kco
 Content-Type: application/json
 
 {
-  "cin": "12345568",
+  "cin": "12345567",
   "firstName": "rjjjjz",
   "lastName":"jkki",
   "childs":[{ 
     "name":"salma"
   }]
+}
+###
+post http://localhost:3002/admin/newTeacher
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODMyMzU0NzMsImV4cCI6MTY4MzQ5NDY3M30.TPbsjsPIWDQ_ZxZWvtZ5pq54X3DU4NhVlzt9l1-1Kco
+Content-Type: application/json
+
+{
+  "cin": "12345569",
+  "firstName": "rjjjjz",
+  "lastName":"jkki"
 }

@@ -1,0 +1,36 @@
+.loginContainer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  z-index: -1;
+  margin-bottom: 0%;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+}
+
+.login .card {
+  width: 400px;
+  height: 500px;
+  border-radius: 20px;
+}
+.signup .card {
+  width: 400px;
+
+  border-radius: 20px;
+}
+.login,
+.signup .card-title {
+  color: rgb(29, 29, 194);
+}
+.connexion-type .btn {
+  background-color: rgb(29, 29, 194);
+  border-radius: 20px;
+}
+.connexion-type .btn:hover {
+  background-color: rgba(95, 98, 255, 0.745);
+}

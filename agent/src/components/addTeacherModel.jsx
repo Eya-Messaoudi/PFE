@@ -50,8 +50,8 @@ const AddTeacher = ({ targetId, idC, onError }) => {
         type: "ADD_TEACHER",
         payload: {
           cin: json.cin,
-          firstName: json.firstName,
-          lastName: json.lastName,
+          firstName: json.nom,
+          lastName: json.prenom,
         },
       });
     } else if (!response.ok) {
@@ -108,7 +108,7 @@ const AddTeacher = ({ targetId, idC, onError }) => {
                             to={`/profile/${teacher._id}`}
                             className="text-decoration-none text-secondary"
                           >
-                            {teacher.lastName} {teacher.firstName}
+                            {teacher.nom} {teacher.prenom}
                           </Link>
                         </td>
                         <td className="text-end fs-5  ">

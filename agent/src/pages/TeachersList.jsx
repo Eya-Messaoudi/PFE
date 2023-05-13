@@ -44,8 +44,8 @@ const TeacherList = () => {
       },
       body: JSON.stringify({
         cin: cin,
-        firstName: nom,
-        lastName: prenom,
+        nom: nom,
+        prenom: prenom,
       }),
     });
     const json = await response.json();
@@ -61,8 +61,8 @@ const TeacherList = () => {
         type: "CREATE_TEACHER",
         payload: {
           cin: json.cin,
-          firstName: json.firstName,
-          lastName: json.lastName,
+          nom: json.nom,
+          prenom: json.prenom,
         },
       });
     }
@@ -72,7 +72,8 @@ const TeacherList = () => {
     if (!user) {
       return;
     }
-    const response = await fetch(API_Base + "/admin/delete/" + id, {
+
+    const response = await fetch(API_Base + "/admin/deleteTeacher/" + id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -90,6 +91,7 @@ const TeacherList = () => {
     setNom("");
     setPrenom("");
   };
+
   return (
     <div>
       <table className="table table-hover caption-top mt-5">
@@ -105,8 +107,8 @@ const TeacherList = () => {
         </thead>
         <tbody>
           {teachers &&
-            teachers.map((teacher) => (
-              <tr key={teacher._id}>
+            teachers.map((teacher, index) => (
+              <tr key={index}>
                 <th scope="row">
                   <div className="circle-container">
                     <img src={profile} alt="" className="profile-image" />
@@ -117,70 +119,72 @@ const TeacherList = () => {
                     to={`/profileEnseignant/${teacher._id}`}
                     className="text-decoration-none text-secondary"
                   >
-                    {teacher.lastName} {teacher.firstName}
+                    {teacher.nom} {teacher.prenom}
                   </Link>
                 </td>
                 <td className="text-end fs-5  ">
                   <ion-icon
                     name="trash-outline"
                     className=""
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    data-bs-toggle="modal" // Corrected attribute
+                    data-bs-target={`#exampleModal${teacher._id}`}
                   ></ion-icon>
-                  <div
-                    className="modal fade"
-                    id="exampleModal"
-                    tabIndex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
-                            confirmation
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          <p className="text-start">
-                            est ce que vous êtes sûr ? vous voulez supprimer cet
-                            personne{" "}
-                          </p>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            data-bs-dismiss="modal"
-                          >
-                            Non
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => deleteTeacher(teacher._id)}
-                            data-bs-dismiss="modal"
-                          >
-                            Oui
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
+      {teachers &&
+        teachers.map((teacher, index) => (
+          <div
+            className="modal fade"
+            id={`exampleModal${teacher._id}`} // Use a unique identifier for each teacher's modal
+            tabIndex="-1"
+            aria-labelledby={`exampleModalLabel${teacher._id}`} // Use a unique identifier for each teacher's modal
+            aria-hidden="true"
+            key={index}
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">
+                    confirmation
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p className="text-start">
+                    est ce que vous êtes sûr ? vous voulez supprimer cet
+                    personne{" "}
+                  </p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Non
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => deleteTeacher(teacher._id)}
+                    data-bs-dismiss="modal"
+                  >
+                    Oui
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
       {error && (
         <div
           className="row  error alert alert-danger mt-2 mx-2 text-center "
