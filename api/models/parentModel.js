@@ -99,7 +99,7 @@ parentSchema.statics.signup = async function (
     throw Error("merci d'entrer un numéro valid!");
   }
   if (!validator.isStrongPassword(password)) {
-    throw Error("mot de passe tres court");
+    throw Error("mot de passe trés faible !");
   }
   if (!validator.equals(password, confirmPassword)) {
     throw Error("mot de passe ne match pas!");
@@ -126,7 +126,7 @@ parentSchema.statics.logIn = async function (cin, password) {
 
   const parent = await this.findOne({ cin });
   if (!parent) {
-    throw Error("enseignant inexistant!");
+    throw Error("Parent inexistant!");
   }
   const match = await bcrypt.compare(password, parent.password);
   if (!match) {
@@ -134,5 +134,24 @@ parentSchema.statics.logIn = async function (cin, password) {
   }
 
   return parent;
+};
+parentSchema.statics.changePass = async function (
+  newPass,
+  confirmNewPass,
+  clientEmail
+) {
+  if (!validator.isStrongPassword(newPass)) {
+    throw Error("mot de passe trés faible !");
+  }
+  if (!validator.equals(newPass, confirmNewPass)) {
+    throw Error("mot de passe ne match pas !");
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPass, salt);
+  const updatedParent = await this.findOneAndUpdate(
+    { clientEmail },
+    { password: hashedPassword }
+  );
+  return updatedParent;
 };
 module.exports = mongoose.model("Parent", parentSchema);

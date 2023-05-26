@@ -128,5 +128,24 @@ teacherSchema.statics.logIn = async function (cin, password) {
 
   return teacher;
 };
+teacherSchema.statics.changePass = async function (
+  newPass,
+  confirmNewPass,
+  clientEmail
+) {
+  if (!validator.isStrongPassword(password)) {
+    throw Error("mot de passe trés faible !");
+  }
+  if (!validator.equals(newPass, confirmNewPass)) {
+    throw Error("mot de passe ne match pas !");
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPass, salt);
+  const updatedTeacher = await this.findOneAndUpdate(
+    { clientEmail },
+    { password: hashedPassword }
+  );
+  return updatedTeacher;
+};
 
 module.exports = mongoose.model("teacher", teacherSchema);

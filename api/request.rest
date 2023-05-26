@@ -1,7 +1,7 @@
 get http://localhost:3002/admin/admins
 ###
 get http://localhost:3002/admin/agents
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRhOGE5MzFlMWFkNzQ4MTNlZTUyNTAiLCJpYXQiOjE2ODI4MDE0MDQsImV4cCI6MTY4MzA2MDYwNH0.ZsPQN_RdTHNURjtC8smT0C3yvykT7xNI5otuLjkOR-I
+Authorization: Bearer 
 ###
 post http://localhost:3002/admin/signUp
 Content-Type: application/json

@@ -6,6 +6,8 @@ const {
   getParentProfile,
   deleteCours,
   myProfile,
+  getDiscussion,
+  sendMessage,
 } = require("../controllers/teacherControllers");
 
 const express = require("express");
@@ -21,4 +23,6 @@ router.post("/creatCours/:classeId", creatCours);
 router.get("/parentProfile/:id", getParentProfile);
 router.get("/myProfile", myProfile);
 router.delete("/deleteCours/:id", deleteCours);
+router.get("/discussion/:id", getDiscussion);
+router.post("/sendMessage/:id", sendMessage);
 module.exports = router;

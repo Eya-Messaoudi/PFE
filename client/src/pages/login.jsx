@@ -91,7 +91,7 @@ const Login = () => {
 
           <div className="card-footer bg bg-white container">
             <div className="row mt-3 mb-3 mx-4">
-              <Link>Mot de passe oublié</Link>
+              <Link to="/forgetPass">Mot de passe oublié</Link>
             </div>
           </div>
         </div>

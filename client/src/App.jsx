@@ -15,6 +15,9 @@ import Login from "./pages/login";
 import Signup from "./pages/Signup";
 import { useEffect } from "react";
 import ProfileTeacher from "./parentPages/profileTeacher";
+import ForgetPass from "./pages/forgetPass";
+import VerificationCode from "./pages/verifacationCode";
+import ChangePass from "./pages/changePass";
 const App = () => {
   const { user } = useAuthContext();
   useEffect(() => {}, [user]);
@@ -25,6 +28,7 @@ const App = () => {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/AcceuilP" element={user ? <AcceuilP /> : <Login />} />
           <Route path="/AcceuilE" element={user ? <AcceuilE /> : <Login />} />
           <Route
@@ -34,6 +38,10 @@ const App = () => {
           <Route path="/cours/:id" element={user ? <Details /> : <Login />} />
           <Route path="/About" element={<About />} />
           <Route path="/Blog" element={<Blog />} />
+          <Route path="/forgetPass" element={<ForgetPass />} />
+          <Route path="/code" element={<VerificationCode />} />
+
+          <Route path="/nouveau" element={<ChangePass />} />
           <Route
             path="/profileParent/:id"
             element={user ? <ProfileParent /> : <Login />}

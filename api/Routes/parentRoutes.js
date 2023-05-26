@@ -4,6 +4,8 @@ const {
   getTeacherCours,
   profileTeacher,
   myProfile,
+  getDiscussion,
+  sendMessage,
 } = require("../controllers/parentControllers");
 const express = require("express");
 const router = express.Router();
@@ -16,4 +18,6 @@ router.get("/details/:id", teachersList);
 router.get("/teacherCours/:teacherId/:classeId", getTeacherCours);
 router.get("/teacherProfile/:id", profileTeacher);
 router.get("/myProfile", myProfile);
+router.get("/discussion/:id", getDiscussion);
+router.post("/sendMessage/:id", sendMessage);
 module.exports = router;

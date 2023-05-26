@@ -2,6 +2,7 @@ const Parent = require("../models/parentModel");
 const Cours = require("../models/coursModel");
 const Teacher = require("../models/teacherModel");
 const Classe = require("../models/classeModel");
+const Discussion = require("../models/discussionModel");
 const mongoose = require("mongoose");
 const getClasses = async (req, res) => {
   const parentId = req.parent._id;
@@ -68,6 +69,50 @@ const myProfile = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const getDiscussion = async (req, res) => {
+  const parentId = req.parent._id;
+  const { id } = req.params;
+  try {
+    const discussion = await Discussion.findOne(
+      { teacher: id, parent: parentId },
+      "messages" // Specify the fields you want to include
+    ).sort({ "messages.sendAt": -1 }); // Sort based on messages' sendAt field
+    const messages = discussion.messages;
+    res.status(200).json({ messages });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const sendMessage = async (req, res) => {
+  const { id } = req.params;
+  const parentId = req.parent._id;
+  const { contenu } = req.body;
+  try {
+    let discussion = await Discussion.findOne({
+      teacher: id,
+      parent: parentId,
+    });
+    if (discussion) {
+      discussion.messages.push({ sender: parentId, contenu: contenu });
+      await discussion.save();
+    } else {
+      discussion = await Discussion.create({
+        teacher: id,
+        parent: parentId,
+        messages: [
+          {
+            sender: parentId,
+            contenu: contenu,
+          },
+        ],
+      });
+    }
+    res.status(200).json({ discussion });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getClasses,
@@ -75,4 +120,6 @@ module.exports = {
   getTeacherCours,
   profileTeacher,
   myProfile,
+  getDiscussion,
+  sendMessage,
 };

@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const session = require("express-session");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const adminRoutes = require("./Routes/adminRoutes");
@@ -26,6 +27,13 @@ mongoose
   .catch(console.error);
 
 //routes
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRoutes);
 app.use("/parent", parentRoutes);

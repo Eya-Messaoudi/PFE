@@ -80,7 +80,10 @@ const NavFoot = () => {
                     </CustomLink>
 
                     <li>
-                      <div className="dropdown-item" onClick={handleClick}>
+                      <div
+                        className="dropdown-item logout"
+                        onClick={handleClick}
+                      >
                         se deconnecter
                       </div>
                     </li>

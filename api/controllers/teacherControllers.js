@@ -2,6 +2,7 @@ const Teacher = require("../models/teacherModel");
 const Classe = require("../models/classeModel");
 const Cours = require("../models/coursModel");
 const Parent = require("../models/parentModel");
+const Discussion = require("../models/discussionModel");
 
 //retourner la liste des classes du enseignants
 const getClasses = async (req, res) => {
@@ -73,6 +74,52 @@ const deleteCours = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const getDiscussion = async (req, res) => {
+  const teacherId = req.teacher._id;
+  const { id } = req.params;
+  try {
+    const discussion = await Discussion.findOne(
+      { teacher: teacherId, parent: id },
+      "messages" // Specify the fields you want to include
+    ).sort({ "messages.sendAt": -1 }); // Sort based on messages' sendAt field
+    const messages = discussion.messages;
+    res.status(200).json({ messages });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const sendMessage = async (req, res) => {
+  const { id } = req.params;
+  const teacherId = req.teacher._id;
+  const { contenu } = req.body;
+  try {
+    let discussion = await Discussion.findOne({
+      teacher: teacherId,
+      parent: id,
+    });
+    if (discussion) {
+      discussion.messages.push({ sender: teacherId, contenu: contenu });
+      await discussion.save();
+    } else {
+      discussion = await Discussion.create({
+        teacher: teacherId,
+        parent: id,
+        messages: [
+          {
+            sender: teacherId,
+            contenu: contenu,
+          },
+        ],
+      });
+    }
+    res.status(200).json({ discussion });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //parentProfile
 const getParentProfile = async (req, res) => {
   const { id } = req.params;
@@ -104,4 +151,6 @@ module.exports = {
   getParentProfile,
   deleteCours,
   myProfile,
+  sendMessage,
+  getDiscussion,
 };

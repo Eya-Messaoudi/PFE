@@ -3,7 +3,7 @@ import parentt from "../images/parents.jpg";
 import "./Style.css";
 import { useParams } from "react-router";
 import { useAuthContext } from "../hooks/useAuthContext";
-import TextBox from "../components/textingModel";
+import TeacherTextBox from "../components/teacherTextingModel";
 const Profile = () => {
   const { id } = useParams();
   const [parent, setParent] = useState(null);
@@ -52,11 +52,14 @@ const Profile = () => {
                       type="button"
                       className="btn"
                       data-bs-toggle="modal"
-                      data-bs-target="#textBox"
+                      data-bs-target="#teacherTextBox"
                     >
                       Message
                     </button>
-                    <TextBox targetId={"textBox"} />
+                    <TeacherTextBox
+                      targetId={"teacherTextBox"}
+                      idP={parent._id}
+                    />
                   </div>
                 </div>
               </div>
