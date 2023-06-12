@@ -96,34 +96,34 @@ const CreatParentModel = ({ id, targetId, onError }) => {
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingCin"
                 placeholder="12345678"
                 onChange={(e) => setCin(e.target.value)}
                 value={cin}
               />
-              <label htmlFor="floatingInput">cin</label>
+              <label htmlFor="floatingCin">cin</label>
             </div>
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingNom"
                 placeholder="Ali"
                 onChange={(e) => setNom(e.target.value)}
                 value={nom}
               />
-              <label htmlFor="floatingInput">nom</label>
+              <label htmlFor="floatingNom">nom</label>
             </div>
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingPrenom"
                 placeholder="ben foulen"
                 onChange={(e) => setPrenom(e.target.value)}
                 value={prenom}
               />
-              <label htmlFor="floatingInput">prénom</label>
+              <label htmlFor="floatingPrenom">prénom</label>
             </div>
             <div className="alert alert-warning text-start" role="alert">
               Merci d'entrer seulement les enfants enrollés dans cette classe !

@@ -12,7 +12,7 @@ get http://localhost:3002/parent/teacherProfile/645982c630730a05c2a28f36
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDVhMWY0YmRjZjZjZGMwMGE4ODczMjciLCJpYXQiOjE2ODM2NTYzOTgsImV4cCI6MTY4MzkxNTU5OH0.o-XHcTC9liEEOyM7xT57nA9EMarQefCRccn8M6xNt1Q
 ###
 get http://localhost:3002/parent/myProfile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDVhYjM1N2YxMmIxOTFlZGE4YTJhZTciLCJpYXQiOjE2ODQxODYwODUsImV4cCI6MTY4NDQ0NTI4NX0.1N5G4LnqxI9MggPfueU5oH6U1W2Hn6XZ34IsJEvrvqg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDViODY1N2VlYWI5ZTdjNTE3NzY3ODEiLCJpYXQiOjE2ODUxMzYzNDcsImV4cCI6MTY4NTM5NTU0N30.kqnPfNmBvUUd9YrnLdITtw2i5PQ6lkBiPn9R_ww1R_E
 ###
 get http://localhost:3002/parent/discussion/645982c630730a05c2a28f36
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDVhYjM1N2YxMmIxOTFlZGE4YTJhZTciLCJpYXQiOjE2ODQ1MjUyNTksImV4cCI6MTY4NDc4NDQ1OX0.hXpMoK1EsR2G3GRvMp68lCbogc1BXsBzcEuO05_Y9s8
@@ -25,9 +25,49 @@ Content-Type: application/json
     "contenu" :"hello"
 }
 ###
-post http://localhost:3002/changePassword
+post http://localhost:3002/sendCode
 Content-Type: application/json
 
 {
-    "email":"dakhliferdaous4@gmail.com"
+"email":"messaoudieya2021@gmail.com"
+}
+
+###
+post http://localhost:3002/verifyCode
+Content-Type: application/json
+
+{
+    "code":"836025"
+}
+###
+put http://localhost:3002/changePassword
+Content-Type: application/json
+
+{
+    "newPass":"@Eya1245",
+    "confirmNewPass":"@Eya1245"
+}
+###
+put http://localhost:3002/parent/changeEmail
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDViODY1N2VlYWI5ZTdjNTE3NzY3ODEiLCJpYXQiOjE2ODUxMzYzNDcsImV4cCI6MTY4NTM5NTU0N30.kqnPfNmBvUUd9YrnLdITtw2i5PQ6lkBiPn9R_ww1R_E
+Content-Type: application/json
+
+{
+    "newEmail":"messaoudieya2021@gmail.com"
+}
+###
+put http://localhost:3002/parent/changeTel
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDViODY1N2VlYWI5ZTdjNTE3NzY3ODEiLCJpYXQiOjE2ODUxMzYzNDcsImV4cCI6MTY4NTM5NTU0N30.kqnPfNmBvUUd9YrnLdITtw2i5PQ6lkBiPn9R_ww1R_E
+Content-Type: application/json
+
+{
+    "newTel":"21466694"
+}
+###
+post http://localhost:3002/parent/addAcomment/647cc813849e16c46191aec5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc3OWJkZGQ3N2ZiZWVhM2NkOWQ4MzAiLCJpYXQiOjE2ODU5NTA0NzgsImV4cCI6MTY4NjIwOTY3OH0.82jcD-zeMKfQAHV8flEMdXs4jh0Yx0PozAq3VrXX6Po
+
+{
+    "content":"ana kteb ?"
 }

@@ -97,7 +97,7 @@ const Home = () => {
         </div>
         <div className="whyParadis mt-3 mb-2">
           <div className="intro text-white text-center m-3">
-            <h5 className="display-5">Why Paradis ?</h5>
+            <h5 className="display-5">Pourquoi le Paradis ?</h5>
             <p>
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. A
               pariatur ex expedita, ea cupiditate perspiciatis enim rem voluptas
@@ -146,7 +146,7 @@ const Home = () => {
         </div>
         <div className="Activities mt-4 container text-center">
           <div className="intro text-white m-3">
-            <h5 className="display-5">Our Clubs</h5>
+            <h5 className="display-5">Nos Clubs</h5>
             <p>
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. A
               pariatur ex expedita, ea cupiditate perspiciatis enim rem voluptas

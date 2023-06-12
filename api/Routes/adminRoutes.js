@@ -98,7 +98,7 @@ router.get("/user/:id", getUser);
 //creer un parent dans bd
 router.post("/newParent", createP);
 //ajouter un parent deja existant
-router.get("/addParent/:classe/:parent", addParent);
+router.post("/addParent/:classe/:parent", addParent);
 
 //creer un parent dans une classe
 router.post("/newParent/:id", createParent);

@@ -70,7 +70,7 @@ const Login = () => {
                 </div>
                 <div className="form-floating">
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     id="floatingPassword"
                     placeholder="Password"

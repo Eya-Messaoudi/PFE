@@ -137,7 +137,7 @@ const AddTeacher = ({ targetId, idC, onError }) => {
                 data-bs-target="#exampleModalToggle2"
                 data-bs-toggle="modal"
               >
-                enregistrer
+                Enregistrer
               </button>
             </div>
           </div>
@@ -169,7 +169,7 @@ const AddTeacher = ({ targetId, idC, onError }) => {
             </div>
             <div className="modal-footer">
               <button
-                className="btn btn-primary"
+                className="btn btn-secondary"
                 data-bs-target={`#${targetId}`}
                 data-bs-toggle="modal"
               >
@@ -183,7 +183,7 @@ const AddTeacher = ({ targetId, idC, onError }) => {
                   addTeacher(selectedTeacherId);
                 }}
               >
-                confirmer
+                Confirmer
               </button>
             </div>
           </div>

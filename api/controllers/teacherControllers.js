@@ -45,21 +45,58 @@ const getCours = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const getMatiere = async (req, res) => {
+  const teacherId = req.teacher._id;
+  try {
+    const teacher = await Teacher.findById(teacherId);
+    const matiere = teacher.matiéres;
+    res.status(200).json({ matiere });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 //creer une nouvel cours
 const creatCours = async (req, res) => {
   const { classeId } = req.params;
   const teacherId = req.teacher._id;
-  const { content, toDoBefore } = req.body;
+  const { content, toDoBefore, matiere } = req.body;
+  const file = req.file;
 
   try {
     const cours = await Cours.creatCours(
       content,
       toDoBefore,
+      matiere,
+      file,
       teacherId,
       classeId
     );
-    res.status(200).json(cours);
+    res.status(200).json({ cours });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+//
+const addAreply = async (req, res) => {
+  const teacherId = req.teacher._id;
+  const { content } = req.body;
+  try {
+    const cours = await Cours.findById(req.params.id);
+    const commentIndex = cours.comments.findIndex(
+      (comment) => comment._id.toString() === req.params.commentId
+    );
+    if (commentIndex === -1) {
+      throw new Error("Comment not found");
+    }
+    const newReply = {
+      content: content,
+      author: teacherId,
+      createdAt: Date.now(),
+    };
+    cours.comments[commentIndex].replies.push(newReply);
+    await cours.save();
+    res.status(200).json({ cours });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -69,7 +106,21 @@ const creatCours = async (req, res) => {
 const deleteCours = async (req, res) => {
   try {
     const cours = await Cours.findByIdAndDelete(req.params.id);
-    res.status(200).json(cours);
+    res.status(200).json({ cours });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+//modifier un cours
+const modifyCours = async (req, res) => {
+  const { newText } = req.body;
+  try {
+    const updatedCours = await Cours.findByIdAndUpdate(
+      req.params.id,
+      { content: { text: newText } },
+      { new: true }
+    );
+    res.status(200).json({ updatedCours });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -81,10 +132,15 @@ const getDiscussion = async (req, res) => {
   try {
     const discussion = await Discussion.findOne(
       { teacher: teacherId, parent: id },
-      "messages" // Specify the fields you want to include
-    ).sort({ "messages.sendAt": -1 }); // Sort based on messages' sendAt field
-    const messages = discussion.messages;
-    res.status(200).json({ messages });
+      "messages"
+    ).sort({ "messages.sendAt": -1 });
+
+    if (discussion) {
+      const messages = discussion.messages;
+      res.status(200).json({ messages });
+    } else {
+      res.status(200).json({ messages: [] });
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -138,7 +194,28 @@ const myProfile = async (req, res) => {
     const me = await Teacher.findById(id).select(
       "-password -confirmPass -role -createdAt"
     );
-    res.status(200).json(me);
+    res.status(200).json({ me });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const changeEmail = async (req, res) => {
+  const id = req.teacher._id;
+  const { newEmail } = req.body;
+  try {
+    const updatedMe = await Teacher.changeEmail(id, newEmail, Parent);
+    res.status(200).json({ updatedMe });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const changeTel = async (req, res) => {
+  const id = req.teacher._id;
+  const { newTel } = req.body;
+  try {
+    const updatedMe = await Teacher.changeTel(id, newTel);
+    res.status(200).json({ updatedMe });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -153,4 +230,9 @@ module.exports = {
   myProfile,
   sendMessage,
   getDiscussion,
+  addAreply,
+  changeEmail,
+  changeTel,
+  modifyCours,
+  getMatiere,
 };

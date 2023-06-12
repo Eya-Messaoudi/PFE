@@ -31,42 +31,42 @@ function App() {
               <Route
                 exact
                 path="/"
-                element={user ? <Home /> : <Navigate to="/login" />}
+                element={user ? <Home /> : <Login />}
               ></Route>
               <Route
                 exact
                 path="/teachers"
-                element={user ? <TeacherList /> : <Navigate to="/login" />}
+                element={user ? <TeacherList /> : <Login />}
               ></Route>
               <Route
                 exact
                 path="/parents"
-                element={user ? <ParentList /> : <Navigate to="/login" />}
+                element={user ? <ParentList /> : <Login />}
               ></Route>
               <Route
                 exact
                 path="/login"
-                element={!user ? <Login /> : <Navigate to="/" />}
+                element={!user ? <Login /> : <Home />}
               ></Route>
               <Route
                 exact
                 path="/signup"
-                element={!user ? <Signup /> : <Navigate to="/" />}
+                element={!user ? <Signup /> : <Home />}
               ></Route>
               <Route
                 exact
                 path="/classesList"
-                element={user ? <Classes /> : <Navigate to="/login" />}
+                element={user ? <Classes /> : <Login />}
               ></Route>
               <Route
                 exact
                 path="/details/:id"
-                element={user ? <ClasseDetail /> : <Navigate to="/login" />}
+                element={user ? <ClasseDetail /> : <Login />}
               ></Route>
               <Route
                 exact
                 path="/profileParent/:id"
-                element={user ? <ProfileParent /> : <Navigate to="/login" />}
+                element={user ? <ProfileParent /> : <Login />}
               ></Route>
               <Route
                 exact
@@ -78,7 +78,7 @@ function App() {
               <Route
                 exact
                 path="/agentsList"
-                element={user ? <Agents /> : <Navigate to="/login" />}
+                element={user ? <Agents /> : <Login />}
               ></Route>
             </Routes>
           </div>

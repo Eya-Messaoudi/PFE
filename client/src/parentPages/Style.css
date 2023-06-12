@@ -57,3 +57,36 @@
   position: sticky;
   top: 0;
 }
+.postsParent .card-body .circle-container {
+  width: 40px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ffffffe9;
+}
+.postsParent .card-body .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.postsParent .card-header .circle-container {
+  width: 40px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ffffffe9;
+}
+.postsParent .card-header .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.posts .card-header {
+  border-bottom: 0 none;
+}
+.postsParent .card-footer {
+  border-top: 0 none;
+}
+.accordion .card-header {
+  border-bottom: 0 none;
+}

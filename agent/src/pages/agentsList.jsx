@@ -212,7 +212,7 @@ const Agents = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                ajouter un Enseignant
+                Ajouter un Agent
               </h1>
               <button
                 type="button"

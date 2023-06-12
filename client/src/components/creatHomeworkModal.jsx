@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCoursContext } from "../hooks/useCoursContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const HomeworkModal = ({ targetId, onError, idC }) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [date, setDate] = useState("");
-  const [text, setText] = useState("");
-  //const [error, setError] = useState(null);
+  const [text, setText] = useState();
+  const [matiére, setMatiére] = useState();
+  const [selectedMatiere, setSelectedMatiere] = useState("");
   const { dispatchC } = useCoursContext();
   const { user } = useAuthContext();
   const API_BASE = "http://localhost:3002/teacher";
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+  formData.append("matiere", selectedMatiere);
+  formData.append("content", text);
+  formData.append("toDoBefore", date);
   const creatCours = async () => {
     if (!user) {
       return;
@@ -17,15 +23,9 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
     const response = await fetch(API_BASE + "/creatCours/" + idC, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
-      body: JSON.stringify({
-        content: {
-          text: text,
-        },
-        toDoBefore: date,
-      }),
+      body: formData,
     });
     const json = await response.json();
     if (response.ok) {
@@ -34,11 +34,9 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
       setText("");
       dispatchC({
         type: "CREATE_COURS",
-        payload: {
-          content: json.content,
-          toDoBefore: json.toDoBefore,
-        },
+        payload: json.cours,
       });
+      window.location.reload();
     }
     if (!response.ok) {
       onError(json.error);
@@ -48,6 +46,25 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
   const handleFileSelect = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+  useEffect(() => {
+    const getMatiere = async () => {
+      if (!user) {
+        return;
+      }
+      const response = await fetch(API_BASE + "/getMatiere", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setMatiére(json.matiere);
+      }
+    };
+    if (user) {
+      getMatiere();
+    }
+  });
   return (
     <div
       className="modal fade"
@@ -78,11 +95,18 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
               <select
                 className="form-select  mb-2"
                 aria-label=".form-select-lg example"
+                onChange={(e) => {
+                  setSelectedMatiere(e.target.value);
+                }}
+                value={selectedMatiere}
               >
                 <option defaultValue>Choisir une matiére</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {matiére &&
+                  matiére.map((matiere, index) => (
+                    <option value={matiere} key={index}>
+                      {matiere}
+                    </option>
+                  ))}
               </select>
               <label htmlFor="date" className="form-label fs-6">
                 A faire pour le :
@@ -104,11 +128,11 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
               ></textarea>
             </div>
 
-            {/* <div className="file-input">
+            <div className="file-input">
               <input
                 id="file-upload"
                 type="file"
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.ppt,.pptx,.zip,.rar"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,,.txt,.ppt,.pptx,.zip,.rar"
                 onChange={handleFileSelect}
                 hidden
               />
@@ -118,7 +142,7 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
               </label>
               {selectedFile && (
                 <div
-                  className="alert alert-primary alert-dismissible fade show"
+                  className="alert alert-primary alert-dismissible fade show fs-6"
                   role="alert"
                 >
                   {selectedFile.name}
@@ -133,7 +157,7 @@ const HomeworkModal = ({ targetId, onError, idC }) => {
                   ></button>
                 </div>
               )}
-            </div>*/}
+            </div>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn " data-bs-dismiss="modal">

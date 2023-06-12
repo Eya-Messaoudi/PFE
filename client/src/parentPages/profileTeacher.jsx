@@ -66,7 +66,7 @@ const ProfileTeacher = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Full Name</p>
+                      <p className="mb-0">Nom complet</p>
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">
@@ -87,7 +87,7 @@ const ProfileTeacher = () => {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Phone</p>
+                      <p className="mb-0">Tel</p>
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">{teacher.tel}</p>

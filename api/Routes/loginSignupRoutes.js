@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const {
   loginClient,
   signupClient,
@@ -7,7 +8,13 @@ const {
   verifyCode,
 } = require("../controllers/loginSignupCtrl");
 const loginSignupRoute = express.Router();
-
+loginSignupRoute.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 loginSignupRoute.post("/login", loginClient);
 loginSignupRoute.post("/signup", signupClient);
 loginSignupRoute.post("/sendCode", sendCode);

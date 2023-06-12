@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import parentt from "../images/parents.jpg";
+import parentt from "../images/teacher.jpg";
+import parentss from "../images/parents.jpg";
 import HomeworkModal from "../components/creatHomeworkModal";
 import { useCoursContext } from "../hooks/useCoursContext";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -11,6 +12,10 @@ const Details = () => {
   const API_BASE = "http://localhost:3002/teacher";
   const { cours, dispatchC } = useCoursContext();
   const { user } = useAuthContext();
+  const [newText, setNewText] = useState(" ");
+  const [display, setDisplay] = useState("d-none");
+  const [editingPostId, setEditingPostId] = useState(null);
+
   useEffect(() => {
     const getParents = async () => {
       const response = await fetch(API_BASE + "/parentsList/" + id, {
@@ -43,14 +48,49 @@ const Details = () => {
       getCours();
     }
   }, [id, dispatchC]);
-
+  const deleteCours = async (idC) => {
+    const response = await fetch(API_BASE + "/deleteCours/" + idC, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      dispatchC({ type: "DELETE_COURS", payload: json.cours });
+      setError("");
+    }
+    if (!response.ok) {
+      setError(json.error);
+    }
+  };
+  const modifyCours = async (idC) => {
+    if (!user) {
+      return;
+    }
+    const response = await fetch(API_BASE + "/changeText/" + idC, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({
+        newText: newText,
+      }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      setDisplay("d-none");
+      window.location.reload();
+    }
+  };
   return (
     <div className="body d-flex flex-column min-vh-100 ">
       <div className="container-fluid">
         <div className="row teacher">
           <div className="sideBar  col-auto col-md-2 min-vh-100 text-white shadow-lg p-3 mb-5 bg-body-tertiary rounded ms-1 mt-3 ">
             <button
-              className="btn"
+              className="btn sticky"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasWithBothOptions"
@@ -88,7 +128,7 @@ const Details = () => {
                         <div className=" parent d-flex align-items-center">
                           <div className="circle-container me-3">
                             <img
-                              src={parentt}
+                              src={parentss}
                               alt=""
                               className="profile-image"
                             />
@@ -155,7 +195,7 @@ const Details = () => {
                         <div className="d-flex flex-column justify-content-center">
                           <Link
                             className="text-decoration-none text-dark"
-                            to="/profile"
+                            to="/myProfile"
                           >
                             {cours.teacher.nom} {cours.teacher.prenom}
                           </Link>
@@ -172,13 +212,24 @@ const Details = () => {
                         </button>
                         <ul className="dropdown-menu">
                           <li>
-                            <button className="btn bg bg-white">
+                            <button
+                              className="btn bg bg-white"
+                              onClick={() => {
+                                setDisplay("");
+                                setEditingPostId(cours._id);
+                              }}
+                            >
                               {" "}
                               modifier
                             </button>
                           </li>
                           <li>
-                            <button className="btn bg bg-white">
+                            <button
+                              className="btn bg bg-white"
+                              onClick={() => {
+                                deleteCours(cours._id);
+                              }}
+                            >
                               supprimer
                             </button>
                           </li>
@@ -186,16 +237,85 @@ const Details = () => {
                       </div>
                     </div>
                     <div className="card-body text-secondary ">
-                      <h5 className="card-title">
-                        {" "}
-                        à faire pour le :{" "}
-                        {new Date(cours.toDoBefore).toLocaleString("fr-FR", {
-                          day: "numeric",
-                          month: "long",
-                        })}
-                      </h5>
+                      <div className="container">
+                        <p className="card-title text-danger">
+                          {" "}
+                          à faire pour le :{" "}
+                          {new Date(cours.toDoBefore).toLocaleString("fr-FR", {
+                            day: "numeric",
+                            month: "long",
+                          })}
+                        </p>
 
-                      <p className="card-text">{cours.content.text}</p>
+                        <p className="text-danger">{cours.matiere}</p>
+
+                        <div className="row g-0">
+                          {editingPostId === cours._id ? (
+                            <>
+                              <p
+                                className="card-text p-3 fs-4"
+                                style={{ wordWrap: "break-word" }}
+                              >
+                                {cours.content.text}
+                              </p>
+                              <textarea
+                                type="text"
+                                className={`form-control mb-2  ${display}`}
+                                value={newText}
+                                onChange={(e) => {
+                                  setNewText(e.target.value);
+                                }}
+                              />
+
+                              <div className="d-flex justify-content-between">
+                                <div className="">
+                                  <button
+                                    className={`btn btn text-white ${display} mb-3`}
+                                    onClick={() => {
+                                      modifyCours(cours._id);
+                                    }}
+                                  >
+                                    Enregistrer
+                                  </button>
+                                </div>
+                                <div className="col">
+                                  <button
+                                    className={`btn text-white ${display} ms-2`}
+                                    onClick={() => {
+                                      setDisplay("d-none");
+                                    }}
+                                  >
+                                    Annuler
+                                  </button>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <p
+                              className="card-text p-3 fs-5 d-inline"
+                              style={{ overflowWrap: "break-word" }}
+                            >
+                              {cours.content.text}
+                            </p>
+                          )}
+
+                          {cours.content.fileUrl && (
+                            <div className="fileName">
+                              <p className="">
+                                <a
+                                  href={`http://localhost:3002/${cours.content.fileUrl}`}
+                                  download
+                                  className="link-underline-light text-info fs-5 p-3"
+                                >
+                                  {cours.content.fileUrl.substring(
+                                    cours.content.fileUrl.lastIndexOf("-") + 1
+                                  )}
+                                </a>
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <div className="card-footer bg-transparent shadow-sm p-3 mt-2 mb-1 bg-body-tertiary rounded ">
                       <div className="accordion mt-3" id="accordionExample">
@@ -220,32 +340,22 @@ const Details = () => {
                             {cours.comments &&
                               cours.comments.map((comment, index) => (
                                 <div className="accordion-body">
-                                  <div
-                                    className="card border border-secondary mb-3 "
-                                    key={index}
-                                  >
+                                  <div className="card  mb-3 " key={index}>
                                     <div className="card-header bg-transparent ">
                                       <div className="d-flex align-items-center">
                                         <div className="circle-container me-3">
                                           <img
-                                            src={parentt}
+                                            src={parentss}
                                             className="profile-image"
                                             alt=""
                                           />
                                         </div>
-                                        <div className="d-flex flex-column justify-content-center">
-                                          <Link
-                                            className="text-decoration-none text-dark"
-                                            to="/profile"
-                                          >
-                                            Parent Name
-                                          </Link>
-                                        </div>
+                                        <div className="d-flex flex-column justify-content-center"></div>
                                       </div>
                                     </div>
                                     <div className="card-body text-secondary ">
                                       <p className="card-text">
-                                        contenu du commentaire
+                                        {comment.content}
                                       </p>
                                     </div>
                                   </div>

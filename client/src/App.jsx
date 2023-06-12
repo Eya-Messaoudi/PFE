@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import AcceuilE from "./teacherPages/pageAccuiel";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Blog from "./pages/Blog";
+import Gallerie from "./pages/Gallerie";
 import Details from "./teacherPages/classeDetails";
 import AcceuilP from "./parentPages/acceuilP";
 import Cours from "./parentPages/cours";
@@ -18,6 +18,8 @@ import ProfileTeacher from "./parentPages/profileTeacher";
 import ForgetPass from "./pages/forgetPass";
 import VerificationCode from "./pages/verifacationCode";
 import ChangePass from "./pages/changePass";
+import MyProfile from "./teacherPages/myProfile";
+import MonProfile from "./parentPages/myProfile";
 const App = () => {
   const { user } = useAuthContext();
   useEffect(() => {}, [user]);
@@ -37,7 +39,7 @@ const App = () => {
           />
           <Route path="/cours/:id" element={user ? <Details /> : <Login />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Blog" element={<Blog />} />
+          <Route path="/gallerie" element={<Gallerie />} />
           <Route path="/forgetPass" element={<ForgetPass />} />
           <Route path="/code" element={<VerificationCode />} />
 
@@ -49,6 +51,11 @@ const App = () => {
           <Route
             path="/profileTeacher/:id"
             element={user ? <ProfileTeacher /> : <Login />}
+          />
+          <Route path="/myProfile" element={user ? <MyProfile /> : <Login />} />
+          <Route
+            path="/monProfile"
+            element={user ? <MonProfile /> : <Login />}
           />
           <Route path="/login" element={!user ? <Login /> : <Home />} />
           <Route path="/signup" element={!user ? <Signup /> : <Home />} />

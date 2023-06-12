@@ -22,35 +22,41 @@ const coursSchema = new mongoose.Schema({
     fileUrl: String,
   },
   toDoBefore: { type: Date, default: Date.now },
-  teacher: { type: mongoose.Schema.Types.ObjectId, ref: Teacher }, // <-- make sure this matches the name of your Teacher model
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: Teacher },
   classe: { type: mongoose.Schema.Types.ObjectId, ref: Classe },
   comments: [commentSchema],
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  matiere: String,
 });
 
 coursSchema.statics.creatCours = async function (
   content,
   toDoBefore,
+  matiere,
+  file,
   teacher,
   classe
 ) {
   if (!content || !toDoBefore) {
     throw Error("Ajouter un contenu et une date limite au devoir !");
   }
-  if (!content) {
-    throw Error("Ajouter un contenu au devoir !");
-  }
-  if (!toDoBefore) {
-    throw Error("il faut ajouter une date limite!");
-  }
-  if (toDoBefore < Date.now) {
+  if (toDoBefore < Date.now()) {
     throw Error("merci d'entrer une date valide !");
   }
 
-  const cours = await this.create({ content, toDoBefore, teacher, classe });
+  const cours = await this.create({
+    content: {
+      text: content,
+      fileUrl: file ? file.path : undefined,
+    },
+    toDoBefore,
+    matiere,
+    teacher,
+    classe,
+  });
   return cours;
 };
 

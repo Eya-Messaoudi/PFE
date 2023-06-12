@@ -23,12 +23,11 @@ const loginUser = async (req, res) => {
     let user;
 
     const admin = await Admin.findOne({ email });
-    // Check if the user is an admin
+
     if (admin) {
       const admin = await Admin.logIn(email, password);
       user = admin;
     } else {
-      // Check if the user is an agent
       const agent = await Agent.logIn(email, password);
       if (agent) {
         user = agent;
@@ -140,9 +139,15 @@ const getTeachers = async (req, res) => {
 
 //creer un enseignant dans la bd
 const createT = async (req, res) => {
-  const { cin, nom, prenom } = req.body;
+  const { cin, nom, prenom, matiéres } = req.body;
   try {
-    const teacher = await Teacher.createTeacher(cin, nom, prenom, Parent);
+    const teacher = await Teacher.createTeacher(
+      cin,
+      nom,
+      prenom,
+      matiéres,
+      Parent
+    );
     res.status(200).json({ teacher });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -168,9 +173,15 @@ const addTeacher = async (req, res) => {
 
 //creer un enseignant au sein d'une classe
 const createTeacher = async (req, res) => {
-  const { cin, nom, prenom } = req.body;
+  const { cin, nom, prenom, matiéres } = req.body;
   try {
-    const teacher = await Teacher.createTeacher(cin, nom, prenom, Parent);
+    const teacher = await Teacher.createTeacher(
+      cin,
+      nom,
+      prenom,
+      matiéres,
+      Parent
+    );
 
     const classe = await Classe.findById(req.params.id);
     classe.teachers.push(teacher);
@@ -211,7 +222,7 @@ const removeTeacher = async (req, res) => {
       return res.status(404).json({ error: "Teacher or classe not found" });
     }
 
-    const teacherObjectId = teacher._id.toString(); // Convert teacher._id to a string
+    const teacherObjectId = teacher._id.toString();
     classe.teachers = classe.teachers.filter(
       (item) => item.toString() !== teacherObjectId
     );
@@ -220,7 +231,6 @@ const removeTeacher = async (req, res) => {
 
     res.json({ classe, teacher });
   } catch (error) {
-    // Handle any errors that occur during the process
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -291,9 +301,19 @@ const createP = async (req, res) => {
 
 //ajouter un parent deja existant
 const addParent = async (req, res) => {
+  const { childs } = req.body;
   try {
     const parent = await Parent.findById(req.params.parent);
     const classe = await Classe.findById(req.params.classe);
+
+    if (classe.parents.some((p) => p._id.equals(parent._id))) {
+      throw Error("ce parent  existe dans cette classe");
+    }
+    childs.forEach((child) => {
+      parent.childs.push(child);
+    });
+
+    parent.save();
     const parents = classe.parents.push(parent);
     classe.save();
     res.status(200).json({ parents });

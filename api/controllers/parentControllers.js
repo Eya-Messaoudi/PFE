@@ -64,7 +64,7 @@ const myProfile = async (req, res) => {
     const me = await Parent.findById(Id).select(
       "-password -confirmPass -role -createdAt"
     );
-    res.status(200).json(me);
+    res.status(200).json({ me });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -77,8 +77,12 @@ const getDiscussion = async (req, res) => {
       { teacher: id, parent: parentId },
       "messages" // Specify the fields you want to include
     ).sort({ "messages.sendAt": -1 }); // Sort based on messages' sendAt field
-    const messages = discussion.messages;
-    res.status(200).json({ messages });
+    if (discussion) {
+      const messages = discussion.messages;
+      res.status(200).json({ messages });
+    } else {
+      res.status(200).json({ messages: [] });
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -114,6 +118,44 @@ const sendMessage = async (req, res) => {
   }
 };
 
+const changeEmail = async (req, res) => {
+  const id = req.parent._id;
+  const { newEmail } = req.body;
+  try {
+    const updatedMe = await Parent.changeEmail(id, newEmail, Teacher);
+    res.status(200).json({ updatedMe });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const changeTel = async (req, res) => {
+  const id = req.parent._id;
+  const { newTel } = req.body;
+  try {
+    const updatedMe = await Parent.changeTel(id, newTel);
+    res.status(200).json({ updatedMe });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const addAcomment = async (req, res) => {
+  const parentId = req.parent._id;
+  const { content } = req.body;
+  try {
+    const cours = await Cours.findById(req.params.id);
+    const newComment = {
+      content: content,
+      author: parentId,
+      createdAt: Date.now(),
+    };
+    cours.comments.push(newComment);
+    await cours.save();
+    res.status(200).json({ cours });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getClasses,
   teachersList,
@@ -122,4 +164,7 @@ module.exports = {
   myProfile,
   getDiscussion,
   sendMessage,
+  addAcomment,
+  changeEmail,
+  changeTel,
 };

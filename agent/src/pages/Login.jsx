@@ -1,4 +1,5 @@
 import "./Style/Login.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -38,7 +39,6 @@ const Login = () => {
         className="login shadow-lg p-3 mb-5 bg-body-tertiary rounded m-5 "
         onSubmit={handleSubmit}
       >
-        <h3 className="mb-3">Log In</h3>
         <div className="form-floating mb-3">
           <input
             type="email"
@@ -60,7 +60,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          <label htmlFor="floatingPassword">Password</label>
+          <label htmlFor="floatingPassword">Mot de passe</label>
         </div>
         {error ? (
           <div
@@ -76,7 +76,10 @@ const Login = () => {
           ""
         )}
 
-        <button className="btn btn-primary ">Log In</button>
+        <button className="btn btn-primary ">se connecter</button>
+        <Link to="/signup" className="ms-3">
+          se connecter pour la premiére fois
+        </Link>
       </form>
     </div>
   );

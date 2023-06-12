@@ -58,7 +58,6 @@ const Signup = () => {
         className="signup shadow-lg p-3 mb-5 bg-body-tertiary rounded m-5 "
         onSubmit={handleSubmit}
       >
-        <h3>Sign up</h3>
         <div className="form-floating mb-3">
           <input
             type="text"
@@ -159,7 +158,7 @@ const Signup = () => {
         )}
 
         <button className="btn btn-primary" type="submit" disabled={isLoading}>
-          Sign up
+          se connecter
         </button>
       </form>
     </div>

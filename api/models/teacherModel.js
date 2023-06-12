@@ -12,15 +12,18 @@ const teacherSchema = new mongoose.Schema({
   password: String,
   confirmPass: String,
   createdAt: { type: Date, default: Date.now },
+  profileImage: String,
+  matiéres: [String],
 });
 
 teacherSchema.statics.createTeacher = async function (
   cin,
   nom,
   prenom,
+  matiéres,
   Parent
 ) {
-  if (!cin || !nom || !prenom) {
+  if (!cin || !nom || !prenom || !matiéres) {
     throw Error("tous les champs sont obligatoires !");
   }
   let startswith = false;
@@ -41,7 +44,7 @@ teacherSchema.statics.createTeacher = async function (
     throw Error("cin existe dejà!");
   }
   const role = "teacher";
-  const teacher = await this.create({ cin, nom, prenom, role: role });
+  const teacher = await this.create({ cin, nom, prenom, role: role, matiéres });
   return teacher;
 };
 
@@ -147,5 +150,36 @@ teacherSchema.statics.changePass = async function (
   );
   return updatedTeacher;
 };
+teacherSchema.statics.changeEmail = async function (id, newEmail, Parent) {
+  if (!validator.isEmail(newEmail) || !newEmail) {
+    throw Error("merci d'entrer un email valid");
+  }
+  const existP = await Parent.findOne({ email: newEmail });
+  const existT = await this.findOne({ email: newEmail });
+  if (existP || existT) {
+    throw Error("cet email existe !");
+  }
+  const updatedMe = await this.findOneAndUpdate(
+    { id },
+    { email: newEmail },
+    { new: true }
+  );
+  return updatedMe;
+};
+teacherSchema.statics.changeTel = async function (id, newTel) {
+  function onlyNumbers(str) {
+    const regex = /^\d+$/;
+    return regex.test(str);
+  }
+  if (!onlyNumbers(newTel) || !newTel.length === 8) {
+    throw Error("merci d'entrer un numéro valid!");
+  }
 
+  const updatedMe = await this.findOneAndUpdate(
+    { id },
+    { tel: newTel },
+    { new: true }
+  );
+  return updatedMe;
+};
 module.exports = mongoose.model("teacher", teacherSchema);

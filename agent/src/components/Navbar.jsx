@@ -74,18 +74,6 @@ const Navbar = () => {
               </Link>
             </li>
           )}
-
-          <li className="nav-item px-1 mt-1  ">
-            <Link className="nav-link  text-white mt-2" to="/">
-              <ion-icon
-                name="create-outline"
-                className="text-white fw-bold "
-              ></ion-icon>
-              <span className="ms-3 d-none d-md-inline   ">
-                Fil d'actualité
-              </span>
-            </Link>
-          </li>
         </ul>
       </div>
       {user && (

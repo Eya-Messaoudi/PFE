@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import parentt from "../images/parents.jpg";
+import parentt from "../images/teacher.jpg";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Cours = () => {
@@ -9,6 +9,7 @@ const Cours = () => {
   const [teachers, setTeachers] = useState([]);
   const [error, setError] = useState(null);
   const [cours, setCours] = useState([]);
+  const [comment, setComment] = useState("");
   const API_BASE = "http://localhost:3002/parent";
   useEffect(() => {
     const getTeachers = async () => {
@@ -36,6 +37,27 @@ const Cours = () => {
     if (response.ok) {
       setCours(json.cours);
       setError(null);
+    }
+    if (!response.ok) {
+      setError(json.error);
+    }
+  };
+  const addAcomment = async (idC) => {
+    const response = await fetch(API_BASE + "/addAcomment/" + idC, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({
+        content: comment,
+      }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      setComment(" ");
+      setError(null);
+      window.location.reload();
     }
     if (!response.ok) {
       setError(json.error);
@@ -106,8 +128,8 @@ const Cours = () => {
             {cours &&
               cours.map((cours, index) => (
                 <div
-                  className="row posts shadow-lg p-3 mb-5 bg-body-tertiary rounded me-3 mt-3 ms-3"
-                  key={index}
+                  className="row postsParent shadow-lg p-3 mb-5 bg-body-tertiary rounded me-3 mt-3 ms-3"
+                  key={cours._id}
                 >
                   <div className=" card  mb-3 border-none">
                     <div className="card-header bg-transparent d-flex justify-content-between ">
@@ -126,18 +148,37 @@ const Cours = () => {
                       </div>
                     </div>
                     <div className="card-body text-secondary ">
-                      <h5 className="card-title">
-                        {" "}
-                        à faire pour le :{" "}
-                        {new Date(cours.toDoBefore).toLocaleString("fr-FR", {
-                          day: "numeric",
-                          month: "long",
-                        })}
-                      </h5>
+                      <div className="container">
+                        <p className="card-title text-danger">
+                          {" "}
+                          à faire pour le :{" "}
+                          {new Date(cours.toDoBefore).toLocaleString("fr-FR", {
+                            day: "numeric",
+                            month: "long",
+                          })}
+                        </p>
+
+                        <p className="text-danger">{cours.matiere}</p>
+                      </div>
 
                       <p className="card-text">{cours.content.text}</p>
                     </div>
-                    <div className="card-footer bg-transparent shadow-sm p-3 mt-2 mb-1 bg-body-tertiary rounded ">
+                    {cours.content.fileUrl && (
+                      <div className="fileName">
+                        <p className="">
+                          <a
+                            href={`http://localhost:3002/${cours.content.fileUrl}`}
+                            download
+                            className="link-underline-light text-info fs-5 p-3"
+                          >
+                            {cours.content.fileUrl.substring(
+                              cours.content.fileUrl.lastIndexOf("-") + 1
+                            )}
+                          </a>
+                        </p>
+                      </div>
+                    )}
+                    <div className="card-footer bg bg-white  ">
                       <div className="accordion mt-3" id="accordionExample">
                         <div className="accordion-item">
                           <h2 className="accordion-header">
@@ -149,22 +190,43 @@ const Cours = () => {
                               aria-expanded="true"
                               aria-controls="collapseOne"
                             >
-                              Commentaires
+                              Ajouter un commentaire privée
                             </button>
                           </h2>
+
                           <div
                             id="collapseOne"
                             className="accordion-collapse collapse show"
                             data-parent="#accordionExample"
                           >
+                            <div className="d-flex align-items-center mt-3 mb-3 me-5 ms-1">
+                              <label
+                                htmlFor="exampleFormControlTextarea1"
+                                className="form-label"
+                              ></label>
+                              <textarea
+                                className="form-control form-control-sm flex-grow-1 me-2"
+                                id="exampleFormControlTextarea1"
+                                rows="3"
+                                style={{ width: "98%" }}
+                                onChange={(e) => {
+                                  setComment(e.target.value);
+                                }}
+                                value={comment}
+                              ></textarea>
+                              <ion-icon
+                                name="send-sharp"
+                                onClick={() => {
+                                  addAcomment(cours._id);
+                                }}
+                              ></ion-icon>
+                            </div>
+
                             {cours.comments &&
                               cours.comments.map((comment, index) => (
                                 <div className="accordion-body">
-                                  <div
-                                    className="card border border-secondary mb-3 "
-                                    key={index}
-                                  >
-                                    <div className="card-header bg-transparent ">
+                                  <div className="card  mb-3 " key={index}>
+                                    <div className="card-body text-secondary ">
                                       <div className="d-flex align-items-center">
                                         <div className="circle-container me-3">
                                           <img
@@ -174,19 +236,11 @@ const Cours = () => {
                                           />
                                         </div>
                                         <div className="d-flex flex-column justify-content-center">
-                                          <Link
-                                            className="text-decoration-none text-dark"
-                                            to="/profile"
-                                          >
-                                            Parent Name
-                                          </Link>
+                                          <p className="card-text">
+                                            {comment.content}
+                                          </p>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div className="card-body text-secondary ">
-                                      <p className="card-text">
-                                        contenu du commentaire
-                                      </p>
                                     </div>
                                   </div>
                                 </div>

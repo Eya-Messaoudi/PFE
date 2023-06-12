@@ -12,6 +12,7 @@ const TeacherList = () => {
   const [prenom, setPrenom] = useState("");
   const { teachers, dispatchT } = useTeacherContext();
   const { user } = useAuthContext();
+  const [matiéres, setMatieres] = useState([]);
 
   const API_Base = "http://localhost:3002";
   useEffect(() => {
@@ -46,6 +47,7 @@ const TeacherList = () => {
         cin: cin,
         nom: nom,
         prenom: prenom,
+        matiéres: matiéres,
       }),
     });
     const json = await response.json();
@@ -63,25 +65,9 @@ const TeacherList = () => {
           cin: json.cin,
           nom: json.nom,
           prenom: json.prenom,
+          matieres: json.matiéres,
         },
       });
-    }
-  };
-
-  const deleteTeacher = async (id) => {
-    if (!user) {
-      return;
-    }
-
-    const response = await fetch(API_Base + "/admin/deleteTeacher/" + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    const json = await response.json();
-    if (response.ok) {
-      dispatchT({ type: "DELETE_TEACHER", payload: json });
     }
   };
 
@@ -123,67 +109,12 @@ const TeacherList = () => {
                   </Link>
                 </td>
                 <td className="text-end fs-5  ">
-                  <ion-icon
-                    name="trash-outline"
-                    className=""
-                    data-bs-toggle="modal" // Corrected attribute
-                    data-bs-target={`#exampleModal${teacher._id}`}
-                  ></ion-icon>
+                  <ion-icon name="eye-outline"></ion-icon>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
-      {teachers &&
-        teachers.map((teacher, index) => (
-          <div
-            className="modal fade"
-            id={`exampleModal${teacher._id}`} // Use a unique identifier for each teacher's modal
-            tabIndex="-1"
-            aria-labelledby={`exampleModalLabel${teacher._id}`} // Use a unique identifier for each teacher's modal
-            aria-hidden="true"
-            key={index}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    confirmation
-                  </h1>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <p className="text-start">
-                    est ce que vous êtes sûr ? vous voulez supprimer cet
-                    personne{" "}
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-bs-dismiss="modal"
-                  >
-                    Non
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => deleteTeacher(teacher._id)}
-                    data-bs-dismiss="modal"
-                  >
-                    Oui
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
 
       {error && (
         <div
@@ -213,7 +144,7 @@ const TeacherList = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog  modal-dialog-scrollable">
+        <div className="modal-dialog modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
@@ -261,6 +192,321 @@ const TeacherList = () => {
                     value={prenom}
                   />
                   <label htmlFor="floatingInput">prénom</label>
+                </div>
+                <div className="matieres text-start">
+                  <div className="alert alert-info" role="alert">
+                    Les matieres qu'il ensigne
+                  </div>
+                  <h3 className="text-secondary">Matiére(s)</h3>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Arabe"
+                      id="flexCheckChecked"
+                    />
+
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Arabe
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Français"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Français
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Anglais"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Anglais
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Math"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Math
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Éducation islamique"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Éducation islamique
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Sport"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Sport
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Musique"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Musique
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Dessin"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Dessin
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Histoire et Géographie"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Histoire et Géographie
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Education civile"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Education civile
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setMatieres((prevMatieres) => [
+                            ...prevMatieres,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setMatieres((prevMatieres) =>
+                            prevMatieres.filter(
+                              (matiere) => matiere !== e.target.value
+                            )
+                          );
+                        }
+                      }}
+                      value="Sciences"
+                      id="flexCheckChecked"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckChecked"
+                    >
+                      Sciences
+                    </label>
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">

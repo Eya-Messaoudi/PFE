@@ -58,7 +58,14 @@ agentSchema.statics.signup = async function (
     throw Error("merci d'entrer un numéro valid!");
   }
   if (!validator.isStrongPassword(password)) {
-    throw Error("mot de passe tres court");
+    throw Error(`un mot de passe valide doit étre :  
+   
+    min 8 caractére 
+    min une lettre majiscule 
+    min une lettre miniscule 
+    min un chiffre 
+    min une symbole 
+    `);
   }
   if (!validator.equals(password, confirmPassword)) {
     throw Error("mot de passe ne match pas!");

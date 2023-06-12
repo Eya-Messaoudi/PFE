@@ -1,14 +1,16 @@
 import React from "react";
 import logoParadis from "../images/logo.png";
-import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { Link, useMatch, useResolvedPath, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
 
 const NavFoot = () => {
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const { logout } = useLogout();
   const handleClick = () => {
     logout();
+    navigate("/login");
   };
   return (
     <div className="navFoot">
@@ -45,11 +47,11 @@ const NavFoot = () => {
               </CustomLink>
 
               <CustomLink className="nav-link" to="/About">
-                About
+                A propos
               </CustomLink>
 
-              <CustomLink className="nav-link " to="/Blog">
-                Blog
+              <CustomLink className="nav-link " to="/gallerie">
+                Gallerie
               </CustomLink>
               {!user && (
                 <CustomLink className="nav-link " to="/login">
@@ -75,7 +77,12 @@ const NavFoot = () => {
                       Acceuil
                     </CustomLink>
 
-                    <CustomLink className="dropdown-item" to="#">
+                    <CustomLink
+                      className="dropdown-item"
+                      to={
+                        user.role === "teacher" ? "/myProfile" : "/monProfile"
+                      }
+                    >
                       profile
                     </CustomLink>
 

@@ -3,9 +3,7 @@ const Teacher = require("../models/teacherModel");
 const Parent = require("../models/parentModel");
 const sendEmail = require("./sendEmail");
 const crypto = require("crypto");
-const session = require("express-session");
 
-////create a token
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET_TOKEN, { expiresIn: "3d" });
 };

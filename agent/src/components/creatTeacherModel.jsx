@@ -9,6 +9,7 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
   const { dispatch } = useClassesContext();
   const API_Base = "http://localhost:3002";
   const { user } = useAuthContext();
+  const [matiéres, setMatieres] = useState([]);
   const [error, setError] = useState(null);
   const createTeacher = async () => {
     if (!user) {
@@ -27,6 +28,7 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
         cin: cin,
         nom: nom,
         prenom: prenom,
+        matiéres: matiéres,
       }),
     });
 
@@ -43,6 +45,7 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
           cin: json.cin,
           nom: json.nom,
           prenom: json.prenom,
+          matieres: json.matiéres,
         },
       });
     }
@@ -65,7 +68,7 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              ajouter un Enseignant
+              créer un Enseignant
             </h1>
             <button
               type="button"
@@ -80,36 +83,318 @@ const CreatTeacherModel = ({ id, targetId, onError }) => {
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingCinT"
                 placeholder="12345678"
                 onChange={(e) => setCin(e.target.value)}
                 value={cin}
               />
-              <label htmlFor="floatingInput">cin</label>
+              <label htmlFor="floatingCinT">cin</label>
             </div>
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingNomT"
                 placeholder="Ali"
                 onChange={(e) => setNom(e.target.value)}
                 value={nom}
               />
-              <label htmlFor="floatingInput">nom</label>
+              <label htmlFor="floatingNomT">nom</label>
             </div>
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingPrenomT"
                 placeholder="ben foulen"
                 onChange={(e) => setPrenom(e.target.value)}
                 value={prenom}
               />
-              <label htmlFor="floatingInput">prénom</label>
+              <label htmlFor="floatingPrenomT">prénom</label>
             </div>
             <p>{error}</p>
+            <div className="matieres text-start">
+              <div className="alert alert-info" role="alert">
+                Les matieres qu'il ensigne
+              </div>
+              <h3 className="text-secondary">Matiére(s)</h3>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Arabe"
+                  id="flexCheckChecked"
+                />
+
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Arabe
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Français"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Français
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Anglais"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Anglais
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Math"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Math
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Éducation islamique"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Éducation islamique
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Sport"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Sport
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Musique"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Musique
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Dessin"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Dessin
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Histoire et Géographie"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Histoire et Géographie
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Education civile"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Education civile
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMatieres((prevMatieres) => [
+                        ...prevMatieres,
+                        e.target.value,
+                      ]);
+                    } else {
+                      setMatieres((prevMatieres) =>
+                        prevMatieres.filter(
+                          (matiere) => matiere !== e.target.value
+                        )
+                      );
+                    }
+                  }}
+                  value="Sciences"
+                  id="flexCheckChecked"
+                />
+                <label className="form-check-label" htmlFor="flexCheckChecked">
+                  Sciences
+                </label>
+              </div>
+            </div>
           </div>
           <div className="modal-footer">
             <button

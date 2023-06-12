@@ -48,7 +48,7 @@ const ClasseDetail = () => {
           <h1 className="text-center mt-3">{classeDetails.name}</h1>
           <div className="tabeles">
             <div className="row mt-3">
-              <div className="col   teachers">
+              <div className="col teachers rounded">
                 <table className="table table-hover caption-top">
                   <caption>Liste des Enseignants</caption>
                   <thead>
@@ -86,10 +86,10 @@ const ClasseDetail = () => {
                             <ion-icon
                               name="remove-circle-outline"
                               data-bs-toggle="modal"
-                              data-bs-target="#removeTModal"
+                              data-bs-target={`#removeModal${teacher._id}`}
                             ></ion-icon>
                             <RemoveTeacher
-                              targetId={"removeTModal"}
+                              targetId={`removeModal${teacher._id}`}
                               idC={classeDetails._id}
                               idT={teacher._id}
                             />
@@ -148,9 +148,9 @@ const ClasseDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="row mt-3">
+            <div className="row mt-3 bg bg-white rounded">
               <div className="col parents">
-                <table className="table table-hover  caption-top">
+                <table className="table table-hover  caption-top ">
                   <caption>Liste des Parents</caption>
                   <thead>
                     <tr>
@@ -186,11 +186,11 @@ const ClasseDetail = () => {
                             <ion-icon
                               name="remove-circle-outline"
                               data-bs-toggle="modal"
-                              data-bs-target="#removePModal"
+                              data-bs-target={`#removeModal${parent._id}`}
                             ></ion-icon>
                           </div>
                           <RemoveParent
-                            targetId={"removePModal"}
+                            targetId={`removeModal${parent._id}`}
                             idC={classeDetails._id}
                             idP={parent._id}
                           />
@@ -236,7 +236,11 @@ const ClasseDetail = () => {
                   >
                     Créer
                   </button>
-                  <AddParent targetId={"addParent"} idC={classeDetails._id} />
+                  <AddParent
+                    targetId={"addParent"}
+                    idC={classeDetails._id}
+                    onError={setErrorP}
+                  />
                   <CreatParentModel
                     id={classeDetails._id}
                     targetId={"exampleModal"}

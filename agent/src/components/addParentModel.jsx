@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { useParentContext } from "../hooks/useParentContext";
 import { useClassesContext } from "../hooks/useClassesContext";
 import profile from "../pages/Style/parents.jpg";
+import childss from "../pages/Style/childs.jpg";
 
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const AddParent = ({ targetId, idC }) => {
+const AddParent = ({ targetId, idC, onError }) => {
   const { parents, dispatchP } = useParentContext();
   const { dispatch } = useClassesContext();
   const API_Base = "http://localhost:3002";
-  const [selectedParentId, setSelectedParentId] = useState(null);
+  const [selectedParent, setSelectedParent] = useState("");
   const [error, setError] = useState(null);
-  const [selectedParent, setSelectedParent] = useState(null);
-  const [childs, setChilds] = useState([{ enfant: "", classe: idC }]);
+
+  const [childs, setChilds] = useState([{ name: "" }]);
   const childData = childs.map((child) => ({
-    name: child.enfant,
-    classe: child.classe,
+    name: child.name,
   }));
   const { user } = useAuthContext();
   useEffect(() => {
@@ -44,9 +44,14 @@ const AddParent = ({ targetId, idC }) => {
     const response = await fetch(
       API_Base + "/admin/addParent/" + idC + "/" + idP,
       {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
+        body: JSON.stringify({
+          childs: childData,
+        }),
       }
     );
     const json = await response.json();
@@ -62,14 +67,23 @@ const AddParent = ({ targetId, idC }) => {
         },
       });
     } else if (!response.ok) {
-      // onError(json.error);
+      onError(json.error);
       console.log("error:", json.error);
     }
   };
-  const handleParentSelection = () => {
-    const parent = parents.find((p) => p._id === selectedParentId);
-    setSelectedParent(parent);
-    console.log(selectedParent);
+
+  const addChild = () => {
+    setChilds([...childs, { name: "" }]);
+  };
+  const removeChild = (index) => {
+    const list = [...childs];
+    list.splice(index, 1);
+    setChilds(list);
+  };
+  const handleChildChange = (index, e) => {
+    const newChildren = [...childs];
+    newChildren[index] = { name: e.target.value };
+    setChilds(newChildren);
   };
 
   return (
@@ -113,12 +127,8 @@ const AddParent = ({ targetId, idC }) => {
                           </div>
                         </th>
                         <td className="text-start">
-                          <p
-                            className="text-info fs-6"
-                            data-bs-target="#profile"
-                            data-bs-toggle="modal"
-                          >
-                            {parent.lastName} {parent.firstName}
+                          <p>
+                            {parent.nom} {parent.prenom}
                           </p>
                         </td>
                         <td className="text-end fs-5  ">
@@ -128,7 +138,9 @@ const AddParent = ({ targetId, idC }) => {
                               type="radio"
                               name="radioNoLabel"
                               id={`radioNoLabel-${parent._id}`}
-                              onChange={() => setSelectedParent(parent)}
+                              onChange={(e) => {
+                                setSelectedParent(parent);
+                              }}
                             />
                           </div>
                         </td>
@@ -142,7 +154,6 @@ const AddParent = ({ targetId, idC }) => {
                 className="btn btn-primary"
                 data-bs-target="#childs"
                 data-bs-toggle="modal"
-                onClick={handleParentSelection}
               >
                 suivant
               </button>
@@ -171,23 +182,62 @@ const AddParent = ({ targetId, idC }) => {
               ></button>
             </div>
             <div className="modal-body">
-              {selectedParent && (
-                <div className="text-danger">
-                  {selectedParent.childs.length > 0 ? (
-                    selectedParent.childs.map((child) => {
-                      console.log(child.enfant); // add this line to check if child information is properly displayed
-                      return (
-                        <div className="" key={child}>
-                          {child.enfant}
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p>No child elements found.</p>
+              {selectedParent.childs &&
+                selectedParent.childs.map((child) => (
+                  <div
+                    className="d-flex justify-content-between bg bg-light hover rounded p-3 mb-3"
+                    key={child._id}
+                  >
+                    <div className="d-flex align-items-center">
+                      <div className="circle-container me-3">
+                        <img src={childss} alt="" className="profile-image" />
+                      </div>
+                      <div className="d-flex flex-column justify-content-center">
+                        <p className="text-decoration-none text-dark">
+                          {child.name} {selectedParent.prenom}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              <div className="alert alert-warning text-start" role="alert">
+                Merci d'entrer seulement les enfants enrollés dans cette classe
+                !
+              </div>
+              {childs.map((child, index) => (
+                <div className="d-flex align-items-center" key={index}>
+                  <div className="form-floating flex-grow-1 me-2 mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id={`enfant-${index}`}
+                      placeholder="Enfant"
+                      value={child.name}
+                      onChange={(e) => handleChildChange(index, e)}
+                      style={{ width: "98%" }}
+                    />
+                    <label htmlFor={`enfant-${index}`}>Enfant(s)</label>
+                  </div>
+                  {childs.length - 1 === index && childs.length < 3 && (
+                    <span className="text-end fs-3 text-success">
+                      <ion-icon
+                        name="add-circle-outline"
+                        onClick={addChild}
+                      ></ion-icon>
+                    </span>
+                  )}
+                  {childs.length > 1 && (
+                    <span className="text-end fs-3 text-danger">
+                      <ion-icon
+                        name="close-circle-outline"
+                        onClick={() => {
+                          removeChild(index);
+                        }}
+                      ></ion-icon>
+                    </span>
                   )}
                 </div>
-              )}
-              yohoo!
+              ))}
             </div>
 
             <div className="modal-footer">
@@ -196,43 +246,16 @@ const AddParent = ({ targetId, idC }) => {
                 data-bs-target={`#${targetId}`}
                 data-bs-toggle="modal"
               >
-                précédent
+                Précédent
               </button>
-              <button className="btn btn-primary" data-bs-toggle="modal">
-                enregistrer
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="modal fade"
-        id="profile"
-        aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel2"
-        tabIndex="-1"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalToggleLabel2">
-                Profile
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body"></div>
-            <div className="modal-footer">
               <button
                 className="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target={`#${targetId}`}
+                onClick={() => {
+                  addParent(selectedParent._id);
+                }}
+                data-bs-dismiss="modal"
               >
-                Back to first
+                Enregistrer
               </button>
             </div>
           </div>

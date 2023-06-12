@@ -18,6 +18,7 @@ const parentSchema = new mongoose.Schema({
     },
   ],
   createdAt: { type: Date, default: Date.now },
+  profileImage: String,
 });
 parentSchema.statics.createParent = async function (
   cin,
@@ -153,5 +154,37 @@ parentSchema.statics.changePass = async function (
     { password: hashedPassword }
   );
   return updatedParent;
+};
+parentSchema.statics.changeEmail = async function (id, newEmail, Teacher) {
+  if (!validator.isEmail(newEmail) || !newEmail) {
+    throw Error("merci d'entrer un email valid");
+  }
+  const existT = await Teacher.findOne({ email: newEmail });
+  const existsP = await this.findOne({ email: newEmail });
+  if (existsP || existT) {
+    throw Error("cet email existe !");
+  }
+  const updatedMe = await this.findOneAndUpdate(
+    { id },
+    { email: newEmail },
+    { new: true }
+  );
+  return updatedMe;
+};
+parentSchema.statics.changeTel = async function (id, newTel) {
+  function onlyNumbers(str) {
+    const regex = /^\d+$/;
+    return regex.test(str);
+  }
+  if (!onlyNumbers(newTel) || !newTel.length === 8) {
+    throw Error("merci d'entrer un numéro valid!");
+  }
+
+  const updatedMe = await this.findOneAndUpdate(
+    { id },
+    { tel: newTel },
+    { new: true }
+  );
+  return updatedMe;
 };
 module.exports = mongoose.model("Parent", parentSchema);

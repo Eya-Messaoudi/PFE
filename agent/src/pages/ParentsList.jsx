@@ -90,21 +90,7 @@ const ParentsList = () => {
     newChildren[index] = { enfant: e.target.value };
     setChilds(newChildren);
   };
-  const deleteParent = async (id) => {
-    if (!user) {
-      return;
-    }
-    const response = await fetch(API_Base + "/admin/deleteP/" + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    const json = await response.json();
-    if (response.ok) {
-      dispatchP({ type: "DELETE_PARENT", payload: json });
-    }
-  };
+
   return (
     <div>
       <table className="table table-hover caption-top mt-5">
@@ -135,68 +121,13 @@ const ParentsList = () => {
                     {parent.nom} {parent.prenom}
                   </Link>
                 </td>
-                <td className="text-end fs-5   ">
-                  <ion-icon
-                    name="trash-outline"
-                    className=""
-                    data-bs-toggle="modal"
-                    data-bs-target={`#exampleModal${parent._id}`}
-                  ></ion-icon>
+                <td className="text-end fs-5  ">
+                  <ion-icon name="eye-outline"></ion-icon>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
-      {parents &&
-        parents.map((parent, index) => (
-          <div
-            className="modal fade"
-            id={`exampleModal${parent._id}`}
-            tabIndex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-            key={index}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    Message de confirmation
-                  </h1>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <p className="text-start ">
-                    est ce que vous êtes sûr ? vous voulez supprimer cet
-                    personne
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-bs-dismiss="modal"
-                  >
-                    Non
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => deleteParent(parent._id)}
-                    data-bs-dismiss="modal"
-                  >
-                    Oui
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
 
       <div className=" text-end mt-4">
         <button
